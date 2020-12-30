@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+
+$default-fonts: "Roboto", sans-serif, Arial;
+
+body,
+html {
+    font-family: $default-fonts;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
