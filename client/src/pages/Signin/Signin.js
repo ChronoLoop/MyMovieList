@@ -6,6 +6,7 @@ import { Container, Button, Alert } from 'react-bootstrap';
 import Input from '../../components/Input/Input';
 import { signInUser } from '../../actions/User';
 import './Signin.scss';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const SERVER_ERROR_MESSAGE = {
     heading: 'Server Error',
@@ -16,6 +17,7 @@ const CREDENTIAL_ERROR_MESSAGE = {
 };
 
 const Signin = () => {
+    const { setIsAuth } = useAuthContext();
     const [showAlert, setShowAlert] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
     const history = useHistory();
@@ -29,6 +31,7 @@ const Signin = () => {
                     try {
                         const res = await signInUser(values.username, values.password);
                         if (res.status === 200) {
+                            setIsAuth(true);
                             history.push('/');
                         }
                     } catch (err) {

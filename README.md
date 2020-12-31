@@ -47,7 +47,9 @@ npm run dev
   - [ ] Create/Read Reviews
   - [ ] Create/Read Ratings
 
-- [ ] Login/Register Page
-  - [ ] Form
-  - [ ] Create New User
-  - [ ] User Authentication
+- [x] Login/Register Page
+  - [x] Form
+  - [x] Create New User
+  - [x] User Authentication
+
+- [ ] User roles

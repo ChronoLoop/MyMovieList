@@ -13,3 +13,11 @@ export const signInUser = (username, password) => {
         password
     });
 };
+
+export const signOutUser = () => {
+    return axios.get('/api/user/signout');
+};
+
+export const checkAuth = () => {
+    return axios.get('/api/user/checkAuth', { withCredentials: true });
+};

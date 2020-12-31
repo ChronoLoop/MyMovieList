@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
-//components
-import Navbar from '../components/Navbar/Navbar';
 //pages
 import Movies from '../pages/Movies/Movies';
 import AddMovie from '../pages/AddMovie/AddMovie';
 import Register from '../pages/Register/Register';
 import Signin from '../pages/Signin/Signin';
+//components
+import Navbar from '../components/Navbar/Navbar';
+import { useAuthContext } from '../contexts/AuthContext';
+//actions
+import { checkAuth } from '../actions/User';
 
 const PageRoutes = () => {
+    const { setIsAuth } = useAuthContext();
+    useEffect(() => {
+        const checkSession = async () => {
+            const res = await checkAuth();
+            if (res.data.auth) {
+                setIsAuth(true);
+            }
+        };
+        checkSession();
+    }, [setIsAuth]);
+
     return (
         <div className="background-container">
             <Navbar />
