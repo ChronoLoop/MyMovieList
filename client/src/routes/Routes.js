@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar/Navbar';
 //pages
 import Movies from '../pages/Movies/Movies';
 import AddMovie from '../pages/AddMovie/AddMovie';
-
+import Register from '../pages/Register/Register';
 const PageRoutes = () => {
     return (
         <div className="background-container">
@@ -14,6 +14,7 @@ const PageRoutes = () => {
                 <Switch>
                     <Route exact path="/movies/new" render={(props) => <AddMovie {...props} />} />
                     <Route exact path="/movies" render={(props) => <Movies {...props} />} />
+                    <Route exact path="/register" render={(props) => <Register {...props} />} />
                     <Redirect to="/movies" />
                 </Switch>
             </Router>

@@ -11,9 +11,9 @@ const AppNavbar = () => (
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto mr-md-2  mr-lg-3">
                 <Nav.Link href="/movies/new">Add Movie</Nav.Link>
-                <Nav.Link href="/SignIn">Sign In</Nav.Link>
-                <Nav.Link href="/CreateAccount">Create Account</Nav.Link>
-                <Nav.Link href="/Logout">Log Out</Nav.Link>
+                <Nav.Link href="/signin">Sign In</Nav.Link>
+                <Nav.Link href="/register">Register</Nav.Link>
+                <Nav.Link href="/signout">Sign Out</Nav.Link>
             </Nav>
         </Navbar.Collapse>
     </Navbar>
