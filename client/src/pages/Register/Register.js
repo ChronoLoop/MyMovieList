@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
+import { FaKey, FaUser } from 'react-icons/fa';
 import { Container, Button, Alert } from 'react-bootstrap';
 import Input from '../../components/Input/Input';
 import './Register.scss';
-import { FaKey, FaUser } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom';
+import { addUser } from '../../actions/User';
 
 const validationSchema = yup.object().shape({
     username: yup.string().required('Username is required.'),
@@ -28,11 +29,21 @@ const Register = () => {
             <Formik
                 initialValues={{ username: '', password: '', confirmPassword: '' }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setStatus, setSubmitting }) => {
+                onSubmit={async (values, { setStatus, setSubmitting }) => {
                     setSubmitting(true);
-                    //Todo: submit and check if username already exists or check for server errors
-                    // setStatus({ username: 'Username already exists.' });
-                    history.push('/signin');
+                    try {
+                        const res = await addUser(values.username, values.password);
+                        if (res.status === 201) {
+                            history.push('/signin');
+                        }
+                    } catch (err) {
+                        if (err.response.data.userExists) {
+                            setStatus({ username: 'Username already exists.' });
+                        } else {
+                            setShowAlert(true);
+                        }
+                    }
+                    setSubmitting(false);
                 }}
             >
                 {({ errors, isSubmitting, touched, status }) => (
