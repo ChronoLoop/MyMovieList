@@ -12,7 +12,7 @@ const PassportConfig = (passport) => {
 
     const verifyCB = async (username, password, done) => {
         try {
-            const user = await User.findOneByUserName(username);
+            const user = await User.findOneByUsername(username);
             // if user does not exist
             if (!user) {
                 return done(null, false);

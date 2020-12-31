@@ -47,7 +47,7 @@ const Register = () => {
                 }}
             >
                 {({ errors, isSubmitting, touched, status }) => (
-                    <Form className="form-register">
+                    <Form className="register-form">
                         {showAlert ? (
                             <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
                                 <Alert.Heading>Server Error</Alert.Heading>
