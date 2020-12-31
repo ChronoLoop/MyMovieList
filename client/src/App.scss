@@ -1,10 +1,16 @@
+$background-color: #2f3640;
+$red-border: #c23616;
+$input-bg: #4b5259;
+$input-bg-hover: #585f68;
+$white: #f5f6fa;
+
 .App {
     height: 100vh;
     position: relative;
 }
 .background-container {
     scroll-behavior: smooth;
-    background: #2f3640;
+    background: $background-color;
     min-height: 100vh;
     color: #f0f8ff;
 }
