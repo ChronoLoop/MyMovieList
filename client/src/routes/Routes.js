@@ -11,8 +11,17 @@ import { useAuthContext } from '../contexts/AuthContext';
 //actions
 import { checkAuth } from '../actions/User';
 
+const NotAuthRoute = ({ component: Component, isAuth, ...rest }) => {
+    return (
+        <Route
+            {...rest}
+            render={(props) => (!isAuth ? <Component {...props} /> : <Redirect to="/movies" />)}
+        />
+    );
+};
+
 const PageRoutes = () => {
-    const { setIsAuth } = useAuthContext();
+    const { isAuth, setIsAuth } = useAuthContext();
     useEffect(() => {
         const checkSession = async () => {
             const res = await checkAuth();
@@ -30,8 +39,8 @@ const PageRoutes = () => {
                 <Switch>
                     <Route exact path="/movies/new" render={(props) => <AddMovie {...props} />} />
                     <Route exact path="/movies" render={(props) => <Movies {...props} />} />
-                    <Route exact path="/register" render={(props) => <Register {...props} />} />
-                    <Route exact path="/signin" render={(props) => <Signin {...props} />} />
+                    <NotAuthRoute exact path="/register" component={Register} isAuth={isAuth} />
+                    <NotAuthRoute exact path="/signin" component={Signin} isAuth={isAuth} />
                     <Redirect to="/movies" />
                 </Switch>
             </Router>
