@@ -15,7 +15,7 @@ export const signInUser = (username, password) => {
 };
 
 export const signOutUser = () => {
-    return axios.get('/api/user/signout');
+    return axios.get('/api/user/signout', { withCredentials: true });
 };
 
 export const checkAuth = () => {

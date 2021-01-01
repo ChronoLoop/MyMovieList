@@ -4,20 +4,19 @@ $input-bg-hover: #585f68;
 $icon-color: #fbc531;
 $white: #f5f6fa;
 
-.input-container {
+.text-area-container {
     position: relative;
     text-align: left;
 }
 
-.input-container > label {
+.text-area-container > label {
     margin: 5px 0px;
     color: $white;
 }
 
-.input-container > input {
+.text-area-container > textarea {
     width: 100%;
     padding: 10px 40px;
-    height: 50px;
     background: $input-bg;
     border-bottom: 2px solid $red-border;
     border-top: 0px;
@@ -25,22 +24,21 @@ $white: #f5f6fa;
     border-left: 0px;
     border-radius: 3px;
     color: $white;
-    overflow: hidden;
 }
 
-.input-container > input:focus {
+.text-area-container > textarea:focus {
     outline: 0;
 }
 
-.input-container > .input-icon {
+.text-area-container > .text-area-icon {
     position: absolute;
     color: $icon-color;
     z-index: 2;
     text-align: left;
-    top: 49px;
+    top: 46px;
     left: 15px;
 }
 
-.input-container > input::placeholder {
+.text-area-container > textarea::placeholder {
     color: #999fa1;
 }
