@@ -3,6 +3,7 @@ import { Col, Row, Container, Button, Image } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { FaClock, FaFilm, FaAddressCard, FaInfo, FaLink, FaImage } from 'react-icons/fa';
+import './AddMovie.scss';
 //components
 import Input from '../../components/Input/Input';
 import TextArea from '../../components/TextArea/TextArea';
@@ -32,14 +33,14 @@ const validationSchema = yup.object().shape({
         .mixed()
         .required('A image is required')
         .test(
-            'fileSize',
-            'File is too large (max: 3MB)',
-            (value) => value && value.size <= FILE_SIZE
-        )
-        .test(
             'fileFormat',
             'Format must be jpg, jpeg, png',
             (value) => value && SUPPORTED_IMAGE_FORMATS.includes(value.type)
+        )
+        .test(
+            'fileSize',
+            'File is too large (max: 3MB)',
+            (value) => value && value.size <= FILE_SIZE
         )
 });
 
@@ -69,6 +70,21 @@ const AddMovie = () => {
                 >
                     {({ setFieldValue, handleBlur, errors, values, isSubmitting, touched }) => (
                         <Form>
+                            <div className="d-flex justify-content-center">
+                                {values.file && !errors['file'] ? (
+                                    <Image
+                                        src={values.file && URL.createObjectURL(values.file)}
+                                        className="form-cover-image"
+                                    />
+                                ) : (
+                                    <div className="form-cover-image-placeholder">
+                                        <FaFilm className="icon" />
+                                        <div className="text-center form-text-muted">
+                                            Cover Image Placeholder
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                             <Field
                                 name="title"
                                 type="input"
@@ -77,6 +93,19 @@ const AddMovie = () => {
                                 Icon={FaFilm}
                                 placeholder="Enter title"
                                 error={touched['title'] && errors['title']}
+                                className="mb-1"
+                            />
+                            <Input
+                                name="file"
+                                type="file"
+                                label="Cover Image"
+                                Icon={FaImage}
+                                onChange={(event) => {
+                                    setFieldValue('file', event.currentTarget.files[0]);
+                                }}
+                                onBlur={handleBlur}
+                                placeholder="Upload cover image"
+                                error={touched['file'] && errors['file']}
                                 className="mb-1"
                             />
                             <Row>
@@ -134,19 +163,6 @@ const AddMovie = () => {
                                     />
                                 </Col>
                             </Row>
-                            <Input
-                                name="file"
-                                type="file"
-                                label="Cover Image"
-                                Icon={FaImage}
-                                onChange={(event) => {
-                                    setFieldValue('file', event.currentTarget.files[0]);
-                                }}
-                                onBlur={handleBlur}
-                                placeholder="Upload cover image"
-                                error={touched['file'] && errors['file']}
-                                className="mb-1"
-                            />
                             <Field
                                 name="description"
                                 type="text"
@@ -159,7 +175,6 @@ const AddMovie = () => {
                                 error={touched['description'] && errors['description']}
                                 className="mb-1"
                             />
-
                             <Button
                                 disabled={isSubmitting}
                                 type="submit"

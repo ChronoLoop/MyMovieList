@@ -3,6 +3,7 @@ $input-bg: #4b5259;
 $input-bg-hover: #585f68;
 $icon-color: #fbc531;
 $white: #f5f6fa;
+$text-muted-color: #999fa1;
 
 .input-container {
     position: relative;
@@ -42,5 +43,5 @@ $white: #f5f6fa;
 }
 
 .input-container > input::placeholder {
-    color: #999fa1;
+    color: $text-muted-color;
 }
