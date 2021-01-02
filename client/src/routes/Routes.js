@@ -24,9 +24,13 @@ const PageRoutes = () => {
     const { isAuth, setIsAuth } = useAuthContext();
     useEffect(() => {
         const checkSession = async () => {
-            const res = await checkAuth();
-            if (res.data.auth) {
-                setIsAuth(true);
+            try {
+                const res = await checkAuth();
+                if (res.data.auth) {
+                    setIsAuth(true);
+                }
+            } catch {
+                setIsAuth(false);
             }
         };
         checkSession();
