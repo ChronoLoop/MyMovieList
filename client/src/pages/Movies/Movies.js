@@ -1,12 +1,13 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import './Movies.scss';
 import { Row, Col } from 'react-bootstrap';
 import GenreFilter from '../../components/GenreFilter/GenreFilter';
 import Input from '../../components/Input/Input';
 import { FaStar, FaSearch } from 'react-icons/fa';
-
+import { getGenres } from '../../actions/Genre';
 const ACTIONS = {
     SET_CURRENT_GENRE: 'set-current-genre',
+    SET_GENRES: 'set-genres',
     SET_RATING: 'set-rating',
     SET_SEARCH_FILTER: 'set-search-filter'
 };
@@ -19,6 +20,8 @@ const reducer = (state, action) => {
             return { ...state, rating: action.payload.rating };
         case ACTIONS.SET_SEARCH_FILTER:
             return { ...state, searchFilter: action.payload.searchFilter };
+        case ACTIONS.SET_GENRES:
+            return { ...state, genres: action.payload.genres };
         default:
             return state;
     }
@@ -33,6 +36,15 @@ const initialState = {
 
 const Home = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    useEffect(() => {
+        const setGenres = async () => {
+            try {
+                const res = await getGenres();
+                dispatch({ type: ACTIONS.SET_GENRES, payload: { genres: res.data.genres } });
+            } catch {}
+        };
+        setGenres();
+    }, []);
 
     return (
         <div className="p-5">

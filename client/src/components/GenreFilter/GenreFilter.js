@@ -27,7 +27,7 @@ const GenreFilters = ({ genres, currentGenre, dispatch }) => {
                     genres.map((item) => (
                         <ListGroup.Item
                             as="li"
-                            key={item.id}
+                            key={item._id}
                             className={setClass(item.genre, currentGenre)}
                             onClick={() => handleOnClick(item.genre)}
                         >

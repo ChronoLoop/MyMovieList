@@ -42,8 +42,8 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
 
 - [ ] Add Movie Page
   - [ ] Admin authenication
-  - [ ] Form
-  - [ ] Create Movie
+  - [x] Form
+  - [x] Create Movie
 
 - [ ] Movie Page
   - [ ] Movie Information
