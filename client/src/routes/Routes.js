@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
 //pages
 import Movies from '../pages/Movies/Movies';
 import AddMovie from '../pages/AddMovie/AddMovie';
 import Register from '../pages/Register/Register';
 import Signin from '../pages/Signin/Signin';
+import MovieInfo from '../pages/MovieInfo/MovieInfo';
 //components
 import Navbar from '../components/Navbar/Navbar';
+//contexts
 import { useAuthContext } from '../contexts/AuthContext';
-//actions
-import { checkAuth } from '../actions/User';
 
 const NotAuthRoute = ({ component: Component, isAuth, ...rest }) => {
     return (
@@ -21,20 +21,7 @@ const NotAuthRoute = ({ component: Component, isAuth, ...rest }) => {
 };
 
 const PageRoutes = () => {
-    const { isAuth, setIsAuth } = useAuthContext();
-    useEffect(() => {
-        const checkSession = async () => {
-            try {
-                const res = await checkAuth();
-                if (res.data.auth) {
-                    setIsAuth(true);
-                }
-            } catch {
-                setIsAuth(false);
-            }
-        };
-        checkSession();
-    }, [setIsAuth]);
+    const { isAuth } = useAuthContext();
 
     return (
         <div className="background-container">
@@ -43,6 +30,7 @@ const PageRoutes = () => {
                 <Switch>
                     <Route exact path="/movies/new" render={(props) => <AddMovie {...props} />} />
                     <Route exact path="/movies" render={(props) => <Movies {...props} />} />
+                    <Route path="/movies/:id" render={(props) => <MovieInfo {...props} />} />
                     <NotAuthRoute exact path="/register" component={Register} isAuth={isAuth} />
                     <NotAuthRoute exact path="/signin" component={Signin} isAuth={isAuth} />
                     <Redirect to="/movies" />
