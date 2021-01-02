@@ -14,5 +14,9 @@ export const addMovie = (movie) => {
     formData.append('minutes', movie.minutes);
     formData.append('description', movie.description);
     formData.append('image', movie.image);
-    return axios.post('/api/movie/new', formData, contentType);
+    return axios.post('/api/movies/new', formData, contentType);
+};
+
+export const getMovies = () => {
+    return axios.get('/api/movies');
 };

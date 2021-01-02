@@ -1,16 +1,15 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import './GenreFilter.scss';
-import { ACTIONS } from '../../pages/Movies/Movies';
 
 const setClass = (genre, active) => {
     const classButtons = 'list-item';
     return genre === active ? classButtons + ' list-item-active' : classButtons;
 };
 
-const GenreFilters = ({ genres, currentGenre, dispatch }) => {
+const GenreFilters = ({ genres, currentGenre, setCurrentGenre }) => {
     const handleOnClick = (genre) => {
-        dispatch({ type: ACTIONS.SET_CURRENT_GENRE, payload: { genre: genre } });
+        setCurrentGenre(genre);
     };
     return (
         <div className="genre-filter-container ">

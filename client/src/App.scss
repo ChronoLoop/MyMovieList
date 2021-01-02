@@ -4,14 +4,23 @@ $input-bg: #4b5259;
 $input-bg-hover: #585f68;
 $white: #f5f6fa;
 
-.App {
-    height: 100vh;
-    position: relative;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
+.App {
+    width: 100%;
+    min-height: 100vh;
+}
+
 .background-container {
-    scroll-behavior: smooth;
     background: $background-color;
+    scroll-behavior: smooth;
     min-height: 100vh;
     color: #f0f8ff;
     height: fit-content;
+    display: flex;
+    flex-direction: column;
 }
