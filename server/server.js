@@ -23,6 +23,7 @@ const passportConfig = require('./config/passport');
 const dbConfig = require('./config/database');
 // routers
 const userRouter = require('./routes/user');
+const movieRouter = require('./routes/movie');
 
 // configure passport and database
 passportConfig(passport);
@@ -38,8 +39,8 @@ const app = express();
 // middleware
 app.use(cors({ credentials: true, origin: ORIGIN }));
 app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(
     session({
         secret: SESSION_SECRET,
@@ -59,6 +60,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/user', userRouter);
+app.use('/api/movie', movieRouter);
 
 if (IN_PROD) {
     // Serve any static files

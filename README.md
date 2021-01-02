@@ -3,11 +3,11 @@ MyMovieList is a simple database web app where users can search for movies with 
 
 <h2>Installation</h2>
 
- Setup the project and install the packages by running
+ Setup the project and install the packages by running:
 ```bash
 npm run setup
 ```
- Run project with command
+ Run project with command:
 ```bash
 npm run dev
 ```
@@ -26,6 +26,9 @@ npm run dev
     <li> Rate or review movies.</li>
     <li> Add new movies to the database.</li>
 </ul>
+
+<h2> Heroku </h2>
+This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that means that any changes to the filesystem whilst the dyno is running only last until that dyno is shut down or restarted" (<a href="https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted">Source</a>). As a result, images can not be stored in a filesystem without it being deleted after a server shut down or restart. A solution to this problem is to store the images on MongoDB. This is not ideal, but it is the easiest free solution to this problem.
 
 ## TODOS
 

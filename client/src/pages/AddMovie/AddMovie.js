@@ -1,12 +1,13 @@
-import React from 'react';
-import { Col, Row, Container, Button, Image } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Col, Row, Container, Button, Alert } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { FaClock, FaFilm, FaAddressCard, FaInfo, FaLink, FaImage } from 'react-icons/fa';
-import './AddMovie.scss';
 //components
 import Input from '../../components/Input/Input';
 import TextArea from '../../components/TextArea/TextArea';
+//action
+import { addMovie } from '../../actions/Movie';
 
 const FILE_SIZE = 3 * 1000000; //3MB
 const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -29,7 +30,7 @@ const validationSchema = yup.object().shape({
         .min(0, 'Minimum is 0.')
         .max(59, 'Maximum is 59.'),
     description: yup.string().required('Description is required.'),
-    file: yup
+    image: yup
         .mixed()
         .required('A image is required')
         .test(
@@ -51,40 +52,43 @@ const initialValues = {
     hours: '',
     minutes: '',
     description: '',
-    file: ''
+    image: ''
 };
 
 const AddMovie = () => {
+    const [movieAdded, setMovieAdded] = useState(false);
+    const [serverError, setServerError] = useState(false);
+
     return (
         <div className="p-5">
             <h1 className="text-center mb-3">Add New Movie</h1>
             <Container>
+                {movieAdded ? <Alert variant="success">Movie was successfully added.</Alert> : null}
+                {serverError ? (
+                    <Alert variant="danger">
+                        An error has occurred on the server. Please try again at a later time.
+                    </Alert>
+                ) : null}
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={async (values, { setSubmitting }) => {
                         setSubmitting(true);
-
+                        setMovieAdded(false);
+                        setServerError(false);
+                        try {
+                            const res = await addMovie(values);
+                            if (res.status === 201) {
+                                setMovieAdded(true);
+                            }
+                        } catch (err) {
+                            setServerError(true);
+                        }
                         setSubmitting(false);
                     }}
                 >
                     {({ setFieldValue, handleBlur, errors, values, isSubmitting, touched }) => (
                         <Form>
-                            <div className="d-flex justify-content-center">
-                                {values.file && !errors['file'] ? (
-                                    <Image
-                                        src={values.file && URL.createObjectURL(values.file)}
-                                        className="form-cover-image"
-                                    />
-                                ) : (
-                                    <div className="form-cover-image-placeholder">
-                                        <FaFilm className="icon" />
-                                        <div className="text-center form-text-muted">
-                                            Cover Image Placeholder
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
                             <Field
                                 name="title"
                                 type="input"
@@ -96,16 +100,16 @@ const AddMovie = () => {
                                 className="mb-1"
                             />
                             <Input
-                                name="file"
+                                name="image"
                                 type="file"
                                 label="Cover Image"
                                 Icon={FaImage}
                                 onChange={(event) => {
-                                    setFieldValue('file', event.currentTarget.files[0]);
+                                    setFieldValue('image', event.target.files[0]);
                                 }}
                                 onBlur={handleBlur}
                                 placeholder="Upload cover image"
-                                error={touched['file'] && errors['file']}
+                                error={touched['image'] && errors['image']}
                                 className="mb-1"
                             />
                             <Row>

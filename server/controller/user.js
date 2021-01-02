@@ -25,7 +25,7 @@ exports.addUser = async (req, res) => {
     }
 };
 
-exports.signInUser = (req, res, next) => {
+exports.signInUser = async (req, res, next) => {
     passport.authenticate('local', (err, user) => {
         if (err) {
             return next(err);
