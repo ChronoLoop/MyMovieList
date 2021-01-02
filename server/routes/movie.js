@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const { addMovie } = require('../controller/movie');
+const { addMovie, getMovies } = require('../controller/movie');
 
 // store images in client/public
 const storage = multer.diskStorage({
@@ -23,4 +23,5 @@ const upload = multer({ storage });
 const router = express.Router();
 
 router.post('/new', upload.single('image'), addMovie);
+router.get('/', getMovies);
 module.exports = router;

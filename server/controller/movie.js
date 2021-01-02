@@ -40,7 +40,7 @@ exports.addMovie = async (req, res) => {
                     } else {
                         // add genre to db
                         addGenre(newMovie.genre);
-                        res.status(201).json({ id: newMovie.id });
+                        res.status(201).json({ movieID: newMovie.id });
                     }
                 });
             }
@@ -50,6 +50,35 @@ exports.addMovie = async (req, res) => {
             if (fsError) throw fsError;
         });
     } catch (err) {
+        res.status(500).send();
+    }
+};
+
+exports.getMovieById = async (req, res) => {
+    try {
+        const movie = await Movie.findById(req.params.id);
+        res.status(200).json({
+            title: movie.title,
+            description: movie.description,
+            genre: movie.genre,
+            movieLength: movie.movieLength,
+            trailerLink: movie.trailerLink,
+            movieImage: `data:${
+                movie.movieImageType
+            };charset=utf-8;base64,${movie.movieImage.toString('base64')}`
+        });
+    } catch {
+        res.status(500).send();
+    }
+};
+
+exports.getMovies = async (req, res) => {
+    try {
+        const movies = await Movie.find();
+        res.status(200).json({
+            movies
+        });
+    } catch {
         res.status(500).send();
     }
 };

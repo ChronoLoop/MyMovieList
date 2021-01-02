@@ -61,7 +61,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/user', userRouter);
-app.use('/api/movie', movieRouter);
+app.use('/api/movies', movieRouter);
 app.use('/api/genre', genreRouter);
 
 if (IN_PROD) {
