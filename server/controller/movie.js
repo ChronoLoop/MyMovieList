@@ -1,13 +1,14 @@
 const fs = require('fs');
 const Movie = require('../model/movie');
+const { addGenre } = require('./helper/index.js');
 
-const imageMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+const IMAGE_MIMETYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 
 function validMimeType(mimetype) {
     if (mimetype === null) {
         return false;
     }
-    if (imageMimeTypes.includes(mimetype)) {
+    if (IMAGE_MIMETYPES.includes(mimetype)) {
         return true;
     }
     return false;
@@ -37,7 +38,9 @@ exports.addMovie = async (req, res) => {
                     if (dbErr) {
                         res.status(500).send();
                     } else {
-                        res.status(201).send();
+                        // add genre to db
+                        addGenre(newMovie.genre);
+                        res.status(201).json({ id: newMovie.id });
                     }
                 });
             }

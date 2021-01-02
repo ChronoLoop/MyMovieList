@@ -24,6 +24,7 @@ const dbConfig = require('./config/database');
 // routers
 const userRouter = require('./routes/user');
 const movieRouter = require('./routes/movie');
+const genreRouter = require('./routes/genre');
 
 // configure passport and database
 passportConfig(passport);
@@ -61,6 +62,7 @@ app.use(passport.session());
 
 app.use('/api/user', userRouter);
 app.use('/api/movie', movieRouter);
+app.use('/api/genre', genreRouter);
 
 if (IN_PROD) {
     // Serve any static files
