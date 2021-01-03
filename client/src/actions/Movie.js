@@ -1,19 +1,5 @@
 import axios from 'axios';
-
-const toTitleCase = (str) => {
-    return str
-        .toLowerCase()
-        .split(' ')
-        .map((s) => {
-            //capitalize first letter of words adjacent to dashes
-            const words = s
-                .split('-')
-                .map((w) => w.charAt(0).toUpperCase() + w.substring(1))
-                .join('-');
-            return words;
-        })
-        .join(' ');
-};
+import { toTitleCase } from '../utils/String';
 
 export const addMovie = (movie) => {
     const contentType = {
@@ -32,6 +18,13 @@ export const addMovie = (movie) => {
     return axios.post('/api/movies/new', formData, contentType);
 };
 
-export const getMovies = () => {
-    return axios.get('/api/movies');
+export const getMovies = (searchQuery, genre, rating, cancelToken) => {
+    const query = { searchQuery: toTitleCase(searchQuery), genre: toTitleCase(genre), rating };
+    return axios.get(
+        '/api/movies',
+        {
+            params: query
+        },
+        { cancelToken }
+    );
 };

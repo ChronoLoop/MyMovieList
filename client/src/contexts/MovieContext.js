@@ -1,25 +1,55 @@
 import React, { useReducer, useContext } from 'react';
 
 const MOVIE_ACTIONS = {
-    SET_CURRENT_GENRE: 'set-current-genre',
-    SET_GENRES: 'set-genres',
-    SET_RATING: 'set-rating',
-    SET_SEARCH_FILTER: 'set-search-filter',
-    SET_MOVIES: 'set-movies'
+    SET_SEARCH_QUERY: 'set-search-query',
+    MOVIES_FETCH_START: 'movies-fetch-start',
+    MOVIES_FETCH_SUCCESS: 'movies-fetch-success',
+    MOVIES_FETCH_FAILURE: 'movies-fetch-failure'
+};
+
+const GENRES_ACTIONS = {
+    GENRES_FETCH_SUCCESS: 'genres-fetch-success',
+    GENRES_FETCH_FAILURE: 'genres-fetch-failure',
+    SET_CURRENT_GENRE: 'set-current-genre'
+};
+
+const RATING_ACTIONS = {
+    SET_RATING: 'set-rating'
 };
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case MOVIE_ACTIONS.SET_CURRENT_GENRE:
+        case MOVIE_ACTIONS.SET_SEARCH_QUERY:
+            return {
+                ...state,
+                searchQuery: action.payload.searchQuery
+            };
+        case MOVIE_ACTIONS.MOVIES_FETCH_START:
+            return {
+                ...state,
+                hasError: false,
+                isLoadingMovies: true
+            };
+        case MOVIE_ACTIONS.MOVIES_FETCH_SUCCESS:
+            return {
+                ...state,
+                movies: action.payload.movies,
+                isLoadingMovies: false
+            };
+        case MOVIE_ACTIONS.MOVIES_FETCH_FAILURE:
+            return {
+                ...state,
+                hasError: true,
+                isLoadingMovies: false
+            };
+        case GENRES_ACTIONS.SET_CURRENT_GENRE:
             return { ...state, currentGenre: action.payload.genre };
-        case MOVIE_ACTIONS.SET_RATING:
-            return { ...state, rating: action.payload.rating };
-        case MOVIE_ACTIONS.SET_SEARCH_FILTER:
-            return { ...state, searchFilter: action.payload.searchFilter };
-        case MOVIE_ACTIONS.SET_GENRES:
+        case GENRES_ACTIONS.GENRES_FETCH_SUCCESS:
             return { ...state, genres: action.payload.genres };
-        case MOVIE_ACTIONS.SET_MOVIES:
-            return { ...state, movies: action.payload.movies };
+        case GENRES_ACTIONS.GENRES_FETCH_FAILURE:
+            return { ...state, hasError: true };
+        case RATING_ACTIONS.SET_RATING:
+            return { ...state, rating: action.payload.rating };
         default:
             return state;
     }
@@ -29,8 +59,10 @@ const initialState = {
     genres: [],
     currentGenre: 'All',
     rating: 0,
-    searchFilter: '',
-    movies: []
+    searchQuery: '',
+    movies: [],
+    isLoadingMovies: true,
+    hasError: false
 };
 
 const MovieContext = React.createContext();
@@ -44,4 +76,4 @@ const MovieProvider = ({ children }) => {
     return <MovieContext.Provider value={{ state, dispatch }}>{children}</MovieContext.Provider>;
 };
 
-export { MovieProvider, useMovieContext, MOVIE_ACTIONS };
+export { MovieProvider, useMovieContext, MOVIE_ACTIONS, GENRES_ACTIONS, RATING_ACTIONS };
