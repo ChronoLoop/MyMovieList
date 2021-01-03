@@ -89,6 +89,9 @@ const Home = () => {
                                 placeholder="Search..."
                                 className="mt-sm-3 mt-lg-0"
                             />
+                            <p className="text-muted text-left mt-1">
+                                {state.movies && state.movies.length} movies found
+                            </p>
                             <MovieGrid movies={state.movies} />
                         </Col>
                     </Row>

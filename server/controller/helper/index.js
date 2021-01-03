@@ -2,7 +2,7 @@ const Genre = require('../../model/genre');
 
 exports.addGenre = async (genreName) => {
     // add new genre if genre does not exist
-    const genre = await Genre.findOne({ genre: genreName.toLowerCase() });
+    const genre = await Genre.findOne({ genre: genreName });
     if (!genre) {
         const newGenre = new Genre({
             genre: genreName

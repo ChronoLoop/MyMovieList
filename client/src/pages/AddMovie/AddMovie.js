@@ -3,6 +3,7 @@ import { Col, Row, Container, Button, Alert } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { FaClock, FaFilm, FaAddressCard, FaInfo, FaLink, FaImage } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 //components
 import Input from '../../components/Input/Input';
 import TextArea from '../../components/TextArea/TextArea';
@@ -58,12 +59,18 @@ const initialValues = {
 const AddMovie = () => {
     const [movieAdded, setMovieAdded] = useState(false);
     const [serverError, setServerError] = useState(false);
+    const [addedMovieID, setAddedMovieID] = useState(0);
 
     return (
-        <div className="p-5">
+        <div className="p-5 mt-5">
             <h1 className="text-center mb-3">Add New Movie</h1>
             <Container>
-                {movieAdded ? <Alert variant="success">Movie was successfully added.</Alert> : null}
+                {movieAdded ? (
+                    <Alert variant="success">
+                        Movie was successfully added. Check out the new movie{' '}
+                        <Link to={`/movies/${addedMovieID}`}>here</Link>.
+                    </Alert>
+                ) : null}
                 {serverError ? (
                     <Alert variant="danger">
                         An error has occurred on the server. Please try again at a later time.
@@ -72,14 +79,16 @@ const AddMovie = () => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={async (values, { setSubmitting }) => {
+                    onSubmit={async (values, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
                         setMovieAdded(false);
                         setServerError(false);
                         try {
                             const res = await addMovie(values);
                             if (res.status === 201) {
+                                setAddedMovieID(res.data.movieID);
                                 setMovieAdded(true);
+                                resetForm();
                             }
                         } catch (err) {
                             setServerError(true);
