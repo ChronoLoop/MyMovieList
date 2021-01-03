@@ -36,8 +36,8 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
   - [ ] Genre Filter
   - [ ] Rating Filter
   - [ ] Search Filter
-  - [ ] Movie Grid
-    - [ ] MovieCard
+  - [x] Movie Grid
+    - [x] MovieCard
     - [ ] Pagination
 
 - [ ] Add Movie Page
