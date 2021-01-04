@@ -4,6 +4,7 @@ const { addGenre } = require('./helper/index.js');
 
 const IMAGE_MIMETYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 
+// helpers
 function validMimeType(mimetype) {
     if (mimetype === null) {
         return false;
@@ -12,6 +13,27 @@ function validMimeType(mimetype) {
         return true;
     }
     return false;
+}
+function getMovieFilter(searchQuery, genre, rating) {
+    const filter = {
+        title: searchQuery,
+        genre,
+        avgRating: {
+            $gte: parseFloat(rating)
+        }
+    };
+    if (genre === 'All') {
+        delete filter.genre;
+    }
+    if (parseFloat(rating) <= 0) {
+        delete filter.avgRating;
+    }
+    if (searchQuery.length <= 0) {
+        delete filter.title;
+    } else {
+        filter.title = new RegExp(`^${searchQuery}`);
+    }
+    return filter;
 }
 
 exports.addMovie = async (req, res) => {
@@ -58,14 +80,7 @@ exports.getMovieById = async (req, res) => {
     try {
         const movie = await Movie.findById(req.params.id);
         res.status(200).json({
-            title: movie.title,
-            description: movie.description,
-            genre: movie.genre,
-            movieLength: movie.movieLength,
-            trailerLink: movie.trailerLink,
-            movieImage: `data:${
-                movie.movieImageType
-            };charset=utf-8;base64,${movie.movieImage.toString('base64')}`
+            movie
         });
     } catch {
         res.status(500).send();
@@ -74,10 +89,10 @@ exports.getMovieById = async (req, res) => {
 
 exports.getMovies = async (req, res) => {
     try {
-        const movies = await Movie.find();
-        res.status(200).json({
-            movies
-        });
+        const { searchQuery, genre, rating } = req.query;
+        const filter = getMovieFilter(searchQuery, genre, rating);
+        const movies = await Movie.find(filter);
+        res.status(200).json({ movies });
     } catch {
         res.status(500).send();
     }
