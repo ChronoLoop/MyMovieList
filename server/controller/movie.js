@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Movie = require('../model/movie');
-const { addGenre } = require('./helper/index.js');
+const { addGenre, isAdmin, deleteGenre } = require('./helper/index.js');
 
 const IMAGE_MIMETYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -95,6 +95,30 @@ exports.getMovies = async (req, res) => {
         const filter = getMovieFilter(searchQuery, genre, rating);
         const movies = await Movie.find(filter);
         res.status(200).json({ movies });
+    } catch {
+        res.status(500).send();
+    }
+};
+
+exports.deleteMovieById = async (req, res) => {
+    try {
+        // check if admin
+        if (await isAdmin(req.user._id)) {
+            const movieId = req.params.id;
+            const movie = await Movie.findByIdAndDelete(movieId);
+            // Delete genre if there are no movies with this genre
+            if (movie) {
+                const genreFilter = { genre: movie.genre };
+                const movieWithPrevGenre = await Movie.findOne(genreFilter);
+                if (!movieWithPrevGenre) {
+                    deleteGenre(movie.genre);
+                }
+            }
+            res.status(204).send();
+        } else {
+            // unauthorized to delete
+            res.status(403).send();
+        }
     } catch {
         res.status(500).send();
     }

@@ -32,3 +32,7 @@ export const getMovies = (searchQuery, genre, rating, cancelToken) => {
         { cancelToken }
     );
 };
+
+export const deleteMovieById = (movieId) => {
+    return axios.delete(`/api/movies/${movieId}`, { withCredentials: true });
+};

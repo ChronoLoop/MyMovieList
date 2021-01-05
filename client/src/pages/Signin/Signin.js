@@ -3,9 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import { FaKey, FaUser } from 'react-icons/fa';
 import { Container, Button, Alert } from 'react-bootstrap';
-import Input from '../../components/Input/Input';
-import { signInUser } from '../../actions/User';
 import './Signin.scss';
+//actions
+import { signInUser } from '../../actions/User';
+//components
+import Input from '../../components/Input/Input';
+//context
 import { useAuthContext } from '../../contexts/AuthContext';
 
 const SERVER_ERROR_MESSAGE = {

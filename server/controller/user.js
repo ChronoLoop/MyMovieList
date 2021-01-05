@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../model/user');
+// helper
+const { isAdmin } = require('./helper/index.js');
 
 exports.addUser = async (req, res) => {
     const { username, password } = req.body;
@@ -58,14 +60,6 @@ exports.checkUserAuth = async (req, res) => {
     }
     return res.status(401).send();
 };
-
-async function isAdmin(userId) {
-    const admin = await User.findOneAdminById(userId);
-    if (admin) {
-        return true;
-    }
-    return false;
-}
 
 exports.checkAdmin = async (req, res) => {
     try {
