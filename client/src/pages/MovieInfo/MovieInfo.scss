@@ -1,3 +1,5 @@
+$icon-color: #fbc531;
+
 .movie-info-image {
     max-height: 500px;
 }
@@ -14,4 +16,12 @@
 }
 .description {
     font-size: 18px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+.rating > .icon {
+    color: $icon-color;
 }

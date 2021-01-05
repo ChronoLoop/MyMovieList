@@ -1,0 +1,9 @@
+$icon-color: #fbc531;
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+}
+.movie-rating > .icon {
+    color: $icon-color;
+}

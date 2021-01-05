@@ -19,6 +19,7 @@ function getMovieFilter(searchQuery, genre, rating) {
         title: searchQuery,
         genre,
         avgRating: {
+            // greater than or equal to user's rating
             $gte: parseFloat(rating)
         }
     };
@@ -31,6 +32,7 @@ function getMovieFilter(searchQuery, genre, rating) {
     if (searchQuery.length <= 0) {
         delete filter.title;
     } else {
+        // title that starts with searchQuery string
         filter.title = new RegExp(`^${searchQuery}`);
     }
     return filter;

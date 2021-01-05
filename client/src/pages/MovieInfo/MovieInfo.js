@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Alert, Row, Col, Image } from 'react-bootstrap';
+import { FaStar } from 'react-icons/fa';
 import './MovieInfo.scss';
 //actions
 import { getMovieById } from '../../actions/Movie';
@@ -25,9 +26,12 @@ const MovieInfo = () => {
                 const movieData = res.data.movie;
                 setMovie({
                     ...movieData,
-                    image: getMovieImage(movieData.image.data, movieData.image.contentType)
+                    image: getMovieImage(movieData.image.data, movieData.image.contentType),
+                    avgRating: movieData.avgRating
+                        ? parseFloat(movieData.avgRating.$numberDecimal)
+                        : null
                 });
-            } catch (err) {
+            } catch {
                 setHasError(true);
             }
             setIsLoading(false);
@@ -62,6 +66,10 @@ const MovieInfo = () => {
                                             movie.movieLength.minutes +
                                             'm'}
                                     </time>
+                                    <div className="rating d-flex justify-content-center mt-1">
+                                        <FaStar className="icon mr-1" />
+                                        <span>{movie.avgRating || 'N/A'}</span>
+                                    </div>
                                 </div>
                             </div>
                             <Image
@@ -89,6 +97,10 @@ const MovieInfo = () => {
                                             movie.movieLength.minutes +
                                             'm'}
                                     </time>
+                                    <div className="rating mt-1">
+                                        <FaStar className="icon mr-1" />
+                                        <span>{movie.avgRating || 'N/A'}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="description">
