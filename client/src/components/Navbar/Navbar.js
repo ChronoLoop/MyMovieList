@@ -6,7 +6,8 @@ import { signOutUser } from '../../actions/User';
 
 const AppNavbar = () => {
     const { isAuth, setIsAuth } = useAuthContext();
-    const handleSignOut = async () => {
+    const handleSignOut = async (e) => {
+        e.preventDefault();
         try {
             if (isAuth) {
                 const res = await signOutUser();
