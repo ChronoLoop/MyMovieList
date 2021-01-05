@@ -2,10 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './MovieCard.scss';
 import { Button } from 'react-bootstrap';
+//utils
+import { getMovieImage } from '../../../utils/Movie';
 
 const MovieCard = ({ movie }) => {
-    const encodedImage = new Buffer.from(movie.image.data, 'binary').toString('base64');
-    const movieImage = `data:${movie.image.contentType};base64,` + encodedImage;
+    const movieImage = getMovieImage(movie.image.data, movie.image.contentType);
     const history = useHistory();
     const handleMoreInfo = () => {
         history.push(`/movies/${movie._id}`);

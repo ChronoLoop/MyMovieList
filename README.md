@@ -33,26 +33,35 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
 ## TODOS
 
 - [ ] Home Page (Movies)
-  - [ ] Genre Filter
-  - [ ] Rating Filter
-  - [ ] Search Filter
+  - [x] Genre Filter
+  - [x] Rating Filter
+  - [x] Search Filter
   - [x] Movie Grid
-    - [x] MovieCard
+    - [x] MovieCardS
     - [ ] Pagination
 
-- [ ] Add Movie Page
-  - [ ] Admin authenication
+- [x] Add Movie Page
   - [x] Form
   - [x] Create Movie
 
 - [ ] Movie Page
-  - [ ] Movie Information
+  - [x] Movie Information
   - [ ] Create/Read Reviews
   - [ ] Create/Read Ratings
+  - [ ] Edit Movie
+  - [ ] Delete Movie
 
-- [x] Login/Register Page
+- [ ] Login/Register Page
   - [x] Form
   - [x] Create New User
   - [x] User Authentication
+  - [ ] Admin Authentication
 
-- [ ] User roles
+- [ ] Admin features
+  - [ ] Create movies
+  - [ ] Delete movies
+  - [ ] Edit movies
+
+- [ ] User Features
+  - [ ] Review movies
+  - [ ] Rate movies

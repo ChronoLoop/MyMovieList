@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { toTitleCase } from '../utils/String';
 
+export const getMovieById = (movieId) => {
+    return axios.get(`/api/movies/${movieId}`);
+};
+
 export const addMovie = (movie) => {
     const contentType = {
         headers: {
