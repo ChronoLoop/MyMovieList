@@ -8,6 +8,7 @@ const AppNavbar = () => {
     const { isAuth, setIsAuth } = useAuthContext();
     const handleSignOut = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
         try {
             if (isAuth) {
                 const res = await signOutUser();

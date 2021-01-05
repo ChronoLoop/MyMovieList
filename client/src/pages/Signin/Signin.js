@@ -48,8 +48,15 @@ const Signin = () => {
                     setSubmitting(false);
                 }}
             >
-                {({ isSubmitting }) => (
-                    <Form className="signin-form">
+                {({ isSubmitting, handleSubmit }) => (
+                    <Form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSubmit();
+                        }}
+                        className="signin-form"
+                    >
                         {showAlert ? (
                             <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
                                 <Alert.Heading>{errorMsg.heading}</Alert.Heading>

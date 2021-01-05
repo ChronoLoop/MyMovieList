@@ -102,8 +102,22 @@ const AddMovie = () => {
                         }
                     }}
                 >
-                    {({ setFieldValue, handleBlur, errors, values, isSubmitting, touched }) => (
-                        <Form>
+                    {({
+                        setFieldValue,
+                        handleBlur,
+                        errors,
+                        values,
+                        isSubmitting,
+                        handleSubmit,
+                        touched
+                    }) => (
+                        <Form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleSubmit();
+                            }}
+                        >
                             <Field
                                 name="title"
                                 type="input"
@@ -201,9 +215,6 @@ const AddMovie = () => {
                                 size="lg"
                                 block
                                 className="mt-3"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                }}
                             >
                                 Add movie
                             </Button>

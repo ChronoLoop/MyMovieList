@@ -46,8 +46,15 @@ const Register = () => {
                     setSubmitting(false);
                 }}
             >
-                {({ errors, isSubmitting, touched, status }) => (
-                    <Form className="register-form">
+                {({ errors, isSubmitting, touched, status, handleSubmit }) => (
+                    <Form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSubmit();
+                        }}
+                        className="register-form"
+                    >
                         {showAlert ? (
                             <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
                                 <Alert.Heading>Server Error</Alert.Heading>
