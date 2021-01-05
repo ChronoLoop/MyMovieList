@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Alert, Row, Col, Image } from 'react-bootstrap';
-import { FaStar } from 'react-icons/fa';
 import './MovieInfo.scss';
+//context
+import { useAuthContext } from '../../contexts/AuthContext';
 //actions
-import { getMovieById } from '../../actions/Movie';
+import { getMovieById, deleteMovieById } from '../../actions/Movie';
 //utils
 import { getMovieImage } from '../../utils/Movie';
 //components
 import ScrollTop from '../../components/ScrollTop/ScrollTop';
 import Loader from '../../components/Loader/Loader';
+import MovieRating from '../../components/MovieRating/MovieRating';
 
 const MovieInfo = () => {
-    let { id } = useParams();
+    const { isAdmin } = useAuthContext();
+    let { id: movieId } = useParams();
     const [hasError, setHasError] = useState(false);
     const [hasAuthError, setHasAuthError] = useState(false);
     const [movie, setMovie] = useState(null);
@@ -22,7 +25,7 @@ const MovieInfo = () => {
         const fetchMovie = async () => {
             setHasError(false);
             try {
-                const res = await getMovieById(id);
+                const res = await getMovieById(movieId);
                 const movieData = res.data.movie;
                 setMovie({
                     ...movieData,
@@ -37,16 +40,34 @@ const MovieInfo = () => {
             setIsLoading(false);
         };
         fetchMovie();
-    }, [id]);
+    }, [movieId]);
+
+    const handleDeleteMovie = async () => {
+        if (isAdmin) {
+            try {
+                const res = await deleteMovieById(movieId);
+                if (res.status === 204) {
+                    //modal
+                    console.log('movie deleted');
+                }
+            } catch {
+                setHasAuthError(true);
+            }
+        } else {
+            setHasAuthError(true);
+        }
+    };
 
     return (
         <ScrollTop>
             <div className="p-5">
                 {hasAuthError ? (
-                    <Alert variant="danger">Only admins can edit or delete movies.</Alert>
+                    <Alert variant="info" onClose={() => setHasAuthError(false)} dismissible>
+                        Only admins can edit or delete movies.
+                    </Alert>
                 ) : null}
                 {hasError ? (
-                    <Alert variant="danger">
+                    <Alert variant="danger" onClose={() => setHasError(false)} dismissible>
                         Error: Movie could not be loaded. Please try again at a later time.
                     </Alert>
                 ) : null}
@@ -66,10 +87,7 @@ const MovieInfo = () => {
                                             movie.movieLength.minutes +
                                             'm'}
                                     </time>
-                                    <div className="rating d-flex justify-content-center mt-1">
-                                        <FaStar className="icon mr-1" />
-                                        <span>{movie.avgRating || 'N/A'}</span>
-                                    </div>
+                                    <MovieRating rating={movie.avgRating} center={true} />
                                 </div>
                             </div>
                             <Image
@@ -82,7 +100,9 @@ const MovieInfo = () => {
                                 <Button variant="primary" className="mr-3">
                                     Edit Movie
                                 </Button>
-                                <Button variant="danger">Delete Movie</Button>
+                                <Button variant="danger" onClick={handleDeleteMovie}>
+                                    Delete Movie
+                                </Button>
                             </div>
                         </Col>
                         <Col sm={12} xl={9}>
@@ -97,10 +117,7 @@ const MovieInfo = () => {
                                             movie.movieLength.minutes +
                                             'm'}
                                     </time>
-                                    <div className="rating mt-1">
-                                        <FaStar className="icon mr-1" />
-                                        <span>{movie.avgRating || 'N/A'}</span>
-                                    </div>
+                                    <MovieRating rating={movie.avgRating} center={false} />
                                 </div>
                             </div>
                             <div className="description">

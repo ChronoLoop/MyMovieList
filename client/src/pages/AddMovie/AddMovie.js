@@ -9,6 +9,8 @@ import Input from '../../components/Input/Input';
 import TextArea from '../../components/TextArea/TextArea';
 //action
 import { addMovie } from '../../actions/Movie';
+//context
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const FILE_SIZE = 3 * 1000000; //3MB
 const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -60,6 +62,7 @@ const AddMovie = () => {
     const [movieAdded, setMovieAdded] = useState(false);
     const [serverError, setServerError] = useState(false);
     const [addedMovieID, setAddedMovieID] = useState(0);
+    const { isAdmin } = useAuthContext();
 
     return (
         <div className="p-5 mt-5">
@@ -76,24 +79,27 @@ const AddMovie = () => {
                         An error has occurred on the server. Please try again at a later time.
                     </Alert>
                 ) : null}
+                {isAdmin ? null : <Alert variant="info">Only admins can add movies.</Alert>}
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={async (values, { setSubmitting, resetForm }) => {
-                        setSubmitting(true);
-                        setMovieAdded(false);
-                        setServerError(false);
-                        try {
-                            const res = await addMovie(values);
-                            if (res.status === 201) {
-                                setAddedMovieID(res.data.movieID);
-                                setMovieAdded(true);
-                                resetForm();
+                        if (isAdmin) {
+                            setSubmitting(true);
+                            setMovieAdded(false);
+                            setServerError(false);
+                            try {
+                                const res = await addMovie(values);
+                                if (res.status === 201) {
+                                    setAddedMovieID(res.data.movieID);
+                                    setMovieAdded(true);
+                                    resetForm();
+                                }
+                            } catch (err) {
+                                setServerError(true);
                             }
-                        } catch (err) {
-                            setServerError(true);
+                            setSubmitting(false);
                         }
-                        setSubmitting(false);
                     }}
                 >
                     {({ setFieldValue, handleBlur, errors, values, isSubmitting, touched }) => (
@@ -195,6 +201,9 @@ const AddMovie = () => {
                                 size="lg"
                                 block
                                 className="mt-3"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                }}
                             >
                                 Add movie
                             </Button>
