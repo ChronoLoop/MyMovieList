@@ -73,7 +73,7 @@ const MovieInfo = () => {
                 ) : null}
                 {isLoading ? (
                     <Loader />
-                ) : (
+                ) : movie ? (
                     <Row>
                         <Col sm={12} xl={3} className="text-center mb-4 mb-xl-0">
                             <div className="d-block d-xl-none text-center text-xl-left mb-4">
@@ -133,7 +133,7 @@ const MovieInfo = () => {
                             </div>
                         </Col>
                     </Row>
-                )}
+                ) : null}
             </div>
         </ScrollTop>
     );
