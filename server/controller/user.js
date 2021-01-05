@@ -58,3 +58,23 @@ exports.checkUserAuth = async (req, res) => {
     }
     return res.status(401).send();
 };
+
+async function isAdmin(userId) {
+    const admin = await User.findOneAdminById(userId);
+    if (admin) {
+        return true;
+    }
+    return false;
+}
+
+exports.checkAdmin = async (req, res) => {
+    try {
+        if (await isAdmin(req.user._id)) {
+            res.status(200).send({ admin: true });
+        } else {
+            res.status(401).send({ admin: false });
+        }
+    } catch (err) {
+        res.status(401).send();
+    }
+};

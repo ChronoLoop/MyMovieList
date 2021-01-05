@@ -51,11 +51,11 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
   - [ ] Edit Movie
   - [ ] Delete Movie
 
-- [ ] Login/Register Page
+- [x] Login/Register Page
   - [x] Form
   - [x] Create New User
   - [x] User Authentication
-  - [ ] Admin Authentication
+  - [x] Admin Authentication
 
 - [ ] Admin features
   - [ ] Create movies

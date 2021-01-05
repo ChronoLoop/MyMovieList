@@ -17,4 +17,9 @@ userSchema.statics.findOneByUsername = function findOneByUsername(username) {
     return this.findOne({ username });
 };
 
+userSchema.statics.findOneAdminById = function findOneAdminById(userId) {
+    const filter = { _id: userId, role: 'admin' };
+    return this.findOne(filter);
+};
+
 module.exports = mongoose.model('User', userSchema);
