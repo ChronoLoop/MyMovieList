@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const Genre = require('../../model/genre');
 const User = require('../../model/user');
+const Review = require('../../model/review');
+const Movie = require('../../model/movie');
 
 exports.addGenre = async (genreName) => {
     // add new genre if genre does not exist
@@ -28,4 +31,17 @@ exports.isAdmin = async (userId) => {
         return true;
     }
     return false;
+};
+
+exports.updateMovieAverageRating = async (movieId) => {
+    const result = await Review.aggregate([
+        {
+            $match: { movie: mongoose.Types.ObjectId(movieId) }
+        },
+        {
+            $group: { _id: movieId, avgRating: { $avg: '$rating' } }
+        }
+    ]);
+    const update = { avgRating: result[0].avgRating };
+    await Movie.findByIdAndUpdate(movieId, update, { useFindAndModify: false });
 };

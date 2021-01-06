@@ -3,14 +3,15 @@ import { FaStar, FaSearch } from 'react-icons/fa';
 import { Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import './Movies.scss';
-//components
+// components
 import GenreFilter from '../../components/GenreFilter/GenreFilter';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
 import MovieGrid from '../../components/MovieGrid/MovieGrid';
-//actions and contexts
+// actions
 import { getGenres } from '../../actions/Genre';
 import { getMovies } from '../../actions/Movie';
+// contexts
 import {
     GENRES_ACTIONS,
     MOVIE_ACTIONS,
@@ -34,9 +35,10 @@ const Home = () => {
                     state.rating,
                     cancelToken
                 );
+                const movies = res.data.movies;
                 dispatch({
                     type: MOVIE_ACTIONS.MOVIES_FETCH_SUCCESS,
-                    payload: { movies: res.data.movies }
+                    payload: { movies: movies }
                 });
             } catch (err) {
                 axios.isCancel(err) || dispatch({ type: MOVIE_ACTIONS.MOVIES_FETCH_FAILURE });
@@ -82,7 +84,7 @@ const Home = () => {
     const handleRatingChange = (e) => {
         dispatch({
             type: RATING_ACTIONS.SET_RATING,
-            payload: { rating: e.target.value }
+            payload: { rating: e.target.value || 0 }
         });
     };
 

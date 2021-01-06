@@ -40,7 +40,7 @@ function getMovieFilter(searchQuery, genre, rating) {
 
 exports.addMovie = async (req, res) => {
     try {
-        fs.readFile(req.file.path, (err, data) => {
+        fs.readFile(req.file.path, async (err, data) => {
             if (err) throw err;
             if (validMimeType(req.file.mimetype) !== true) {
                 res.status(400).send();
@@ -58,15 +58,10 @@ exports.addMovie = async (req, res) => {
                     image: { data, contentType }
                 });
                 // save new movie in db
-                newMovie.save((dbErr) => {
-                    if (dbErr) {
-                        res.status(500).send();
-                    } else {
-                        // add genre to db
-                        addGenre(newMovie.genre);
-                        res.status(201).json({ movieID: newMovie.id });
-                    }
-                });
+                await newMovie.save();
+                // add genre to db
+                addGenre(newMovie.genre);
+                res.status(201).json({ movieID: newMovie.id });
             }
         });
         // delete movie image after saving movie to db

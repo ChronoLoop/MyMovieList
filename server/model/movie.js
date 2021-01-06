@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const { Decimal128 } = mongoose;
-
 const movieLengthSchema = new mongoose.Schema({
     _id: false,
     hours: { type: Number, require: true },
@@ -15,7 +13,7 @@ const movieSchema = new mongoose.Schema({
     movieLength: movieLengthSchema,
     description: { type: String, trim: true, required: true },
     image: { data: Buffer, contentType: String },
-    avgRating: { type: Decimal128, default: null },
+    avgRating: { type: Number, default: null },
     createdAt: { type: Date, default: Date.now }
 });
 
