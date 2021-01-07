@@ -1,3 +1,6 @@
+$icon-color: #fbc531;
+$white: #f5f6fa;
+
 .card-container {
     position: relative;
     width: 250px;
@@ -7,13 +10,14 @@
     align-items: flex-end;
     transition: 0.5s ease-in-out;
 
+    //background
     & img,
     &::before {
         border-radius: 8px;
     }
 
     &:hover {
-        transform: translateY(15px);
+        transform: translateY(10px);
     }
     &::before {
         content: "";
@@ -39,6 +43,8 @@
         top: 0;
         left: 0;
     }
+
+    //info
     & .info {
         position: relative;
         z-index: 3;
@@ -58,8 +64,35 @@
         transform: translateY(0px);
     }
 
-    & .info p {
+    & .info {
         letter-spacing: 1px;
         font-size: 16px;
+        font-weight: 500;
+    }
+    & .info hr {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 }
+
+// .card-container > .icon-container {
+//     position: absolute;
+//     display: flex;
+//     width: 60px;
+//     height: 60px;
+//     top: 0px;
+//     right: 0px;
+//     z-index: 2;
+//     align-items: center;
+//     justify-content: center;
+
+//     & > .icon {
+//         font-size: 60px;
+//         color: $icon-color;
+//     }
+//     & > span {
+//         position: absolute;
+//         color: white;
+//         font-weight: bold;
+//     }
+// }
