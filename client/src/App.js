@@ -5,15 +5,18 @@ import Routes from './routes/Routes';
 import Footer from './components/Footer/Footer';
 //contexts
 import { AuthProvider } from './contexts/AuthContext';
-import { MovieProvider } from './contexts/MovieContext';
+import { MovieProvider } from './contexts/MoviesContext';
+import { MovieInfoProvider } from './contexts/MovieInfoContext';
 
 function App() {
     return (
         <div className="App">
             <AuthProvider>
                 <MovieProvider>
-                    <Routes />
-                    <Footer />
+                    <MovieInfoProvider>
+                        <Routes />
+                        <Footer />
+                    </MovieInfoProvider>
                 </MovieProvider>
             </AuthProvider>
         </div>

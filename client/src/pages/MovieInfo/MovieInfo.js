@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, Alert, Row, Col, Image } from 'react-bootstrap';
+import { Button, Alert, Row, Col, Image, Container } from 'react-bootstrap';
+import { MdRateReview } from 'react-icons/md';
 import './MovieInfo.scss';
 //context
 import { useAuthContext } from '../../contexts/AuthContext';
+import { useMovieInfoContext, MOVIE_INFO_ACTIONS } from '../../contexts/MovieInfoContext';
 //actions
 import { getMovieById, deleteMovieById } from '../../actions/Movie';
 //utils
@@ -13,46 +15,54 @@ import ScrollTop from '../../components/ScrollTop/ScrollTop';
 import Loader from '../../components/Loader/Loader';
 import MovieRating from '../../components/MovieRating/MovieRating';
 import Modal from '../../components/Modal/Modal';
+import TextArea from '../../components/TextArea/TextArea';
 
 const MovieInfo = () => {
-    const { isAdmin } = useAuthContext();
+    //router
     let { id: movieId } = useParams();
     const history = useHistory();
-    //states
-    const [hasError, setHasError] = useState(false);
-    const [hasAuthError, setHasAuthError] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [movie, setMovie] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
+    //context
+    const { isAdmin } = useAuthContext();
+    const { state, dispatch } = useMovieInfoContext();
+    const { movie } = state;
     useEffect(() => {
         const fetchMovie = async () => {
-            setHasError(false);
+            dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_FETCH_START });
             try {
                 const res = await getMovieById(movieId);
-                const movieData = res.data.movie;
-                setMovie({
+                let movieData = res.data.movie;
+                //get image url and parse average rating to float
+                movieData = {
                     ...movieData,
                     image: getMovieImage(movieData.image.data, movieData.image.contentType),
                     avgRating: movieData.avgRating
-                        ? parseFloat(movieData.avgRating.$numberDecimal)
+                        ? parseFloat(movieData.avgRating).toFixed(2)
                         : null
+                };
+                dispatch({
+                    type: MOVIE_INFO_ACTIONS.MOVIE_FETCH_SUCCESS,
+                    payload: { movie: movieData }
                 });
             } catch {
-                setHasError(true);
+                dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_FETCH_FAILURE });
             }
-            setIsLoading(false);
         };
         fetchMovie();
-    }, [movieId]);
+    }, [movieId, dispatch]);
+
+    const handleEditMovie = async () => {
+        if (isAdmin) {
+            dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_EDIT_START });
+        } else {
+            dispatch({ type: MOVIE_INFO_ACTIONS.OPEN_ADMIN_ERROR });
+        }
+    };
 
     const handleDeleteMovie = async () => {
         if (isAdmin) {
-            setHasAuthError(false);
-            setShowDeleteModal(true);
+            dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_START });
         } else {
-            setShowDeleteModal(false);
-            setHasAuthError(true);
+            dispatch({ type: MOVIE_INFO_ACTIONS.OPEN_ADMIN_ERROR });
         }
     };
 
@@ -60,36 +70,38 @@ const MovieInfo = () => {
         try {
             const res = await deleteMovieById(movieId);
             if (res.status === 204) {
+                dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_SUCCESS });
                 history.push('/');
             }
         } catch {
-            setHasAuthError(true);
+            dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_FAILURE });
         }
     };
 
     return (
         <ScrollTop>
-            <div className="p-5">
-                {hasError ? (
-                    <Alert variant="danger" onClose={() => setHasError(false)} dismissible>
+            <Container className="p-3 my-3">
+                {state.fetchMovieFailure ? (
+                    <Alert variant="danger">
                         Error: Movie could not be loaded. Please try again at a later time.
                     </Alert>
                 ) : null}
                 <Modal
-                    show={hasAuthError}
+                    show={state.hasAdminError}
                     header={'Error'}
                     message={'Only admins can edit or delete movies.'}
-                    onHide={() => setHasAuthError(false)}
+                    onHide={() => dispatch({ type: MOVIE_INFO_ACTIONS.CLOSE_ADMIN_ERROR })}
                 />
                 <Modal
-                    show={showDeleteModal}
+                    show={state.showDeleteModal}
                     header={'Delete Confirmation'}
                     message={'Are you sure you want to delete this movie?'}
-                    onHide={() => setShowDeleteModal(false)}
+                    onHide={() => dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_END })}
                     onConfirm={() => deleteMovie()}
                 />
+                {state.isLoadingMovie ? <h1>Loading Movie...</h1> : null}
 
-                {isLoading ? (
+                {state.isLoadingMovie ? (
                     <Loader />
                 ) : movie ? (
                     <Row>
@@ -115,7 +127,11 @@ const MovieInfo = () => {
                                 className="movie-info-image"
                             />
                             <div className="mt-1">
-                                <Button variant="primary" className="mr-3">
+                                <Button
+                                    variant="primary"
+                                    className="mr-3"
+                                    onClick={handleEditMovie}
+                                >
                                     Edit Movie
                                 </Button>
                                 <Button variant="danger" onClick={handleDeleteMovie}>
@@ -152,7 +168,26 @@ const MovieInfo = () => {
                         </Col>
                     </Row>
                 ) : null}
-            </div>
+            </Container>
+            <hr className="movie-info" />
+            <Container className="p-3 text-center">
+                <h1>Reviews</h1>
+                <div className="user-review-container mt-3">
+                    <TextArea
+                        name="description"
+                        type="text"
+                        min={0}
+                        rows={2}
+                        Icon={MdRateReview}
+                        placeholder="Add a public review..."
+                        className="mb-1"
+                    />
+                    <div className="d-flex justify-content-end">
+                        <Button variant="danger">Post</Button>
+                    </div>
+                </div>
+                <Loader />
+            </Container>
         </ScrollTop>
     );
 };

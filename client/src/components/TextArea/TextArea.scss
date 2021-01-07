@@ -39,6 +39,15 @@ $white: #f5f6fa;
     left: 15px;
 }
 
+.text-area-container > .text-area-icon.no-label {
+    position: absolute;
+    color: $icon-color;
+    z-index: 2;
+    text-align: left;
+    top: 14px;
+    left: 15px;
+}
+
 .text-area-container > textarea::placeholder {
     color: #999fa1;
 }

@@ -17,7 +17,7 @@ import {
     MOVIE_ACTIONS,
     RATING_ACTIONS,
     useMovieContext
-} from '../../contexts/MovieContext';
+} from '../../contexts/MoviesContext';
 
 const Home = () => {
     const { state, dispatch } = useMovieContext();

@@ -4,7 +4,6 @@ import './MovieCard.scss';
 import { Button } from 'react-bootstrap';
 //utils
 import { getMovieImage } from '../../../utils/Movie';
-import { FaStar } from 'react-icons/fa';
 
 const MovieCard = ({ movie }) => {
     const movieImage = getMovieImage(movie.image.data, movie.image.contentType);
