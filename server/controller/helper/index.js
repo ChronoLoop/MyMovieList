@@ -36,7 +36,7 @@ exports.isAdmin = async (userId) => {
 exports.updateMovieAverageRating = async (movieId) => {
     const result = await Review.aggregate([
         {
-            $match: { movie: mongoose.Types.ObjectId(movieId) }
+            $match: { movie: mongoose.Types.ObjectId(movieId), rating: { $exists: true } }
         },
         {
             $group: { _id: movieId, avgRating: { $avg: '$rating' } }
