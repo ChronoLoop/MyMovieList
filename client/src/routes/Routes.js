@@ -6,7 +6,6 @@ import AddMovie from '../pages/AddMovie/AddMovie';
 import Register from '../pages/Register/Register';
 import Signin from '../pages/Signin/Signin';
 import MovieInfo from '../pages/MovieInfo/MovieInfo';
-import EditMovie from '../pages/EditMovie/EditMovie';
 //components
 import Navbar from '../components/Navbar/Navbar';
 //contexts
@@ -22,7 +21,7 @@ const NotAuthRoute = ({ component: Component, isAuth, ...rest }) => {
 };
 
 const PageRoutes = () => {
-    const { isAuth, isAdmin } = useAuthContext();
+    const { isAuth } = useAuthContext();
 
     return (
         <div className="background-container">
@@ -34,7 +33,6 @@ const PageRoutes = () => {
                     <Route path="/movies/:id" render={(props) => <MovieInfo {...props} />} />
                     <NotAuthRoute exact path="/register" component={Register} isAuth={isAuth} />
                     <NotAuthRoute exact path="/signin" component={Signin} isAuth={isAuth} />;
-                    <NotAuthRoute path="/movies/edit/:id" component={EditMovie} isAuth={isAdmin} />
                     <Redirect to="/movies" />
                 </Switch>
             </Router>
