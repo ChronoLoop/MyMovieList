@@ -22,7 +22,7 @@ const MovieInfo = () => {
     let { id: movieId } = useParams();
     const history = useHistory();
     //context
-    const { isAdmin } = useAuthContext();
+    const { isAdmin, isAuth } = useAuthContext();
     const { state, dispatch } = useMovieInfoContext();
     const { movie } = state;
     useEffect(() => {
@@ -50,7 +50,7 @@ const MovieInfo = () => {
         fetchMovie();
     }, [movieId, dispatch]);
 
-    const handleEditMovie = async () => {
+    const handleEditMovie = () => {
         if (isAdmin) {
             dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_EDIT_START });
         } else {
@@ -58,12 +58,16 @@ const MovieInfo = () => {
         }
     };
 
-    const handleDeleteMovie = async () => {
+    const handleDeleteMovie = () => {
         if (isAdmin) {
             dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_START });
         } else {
             dispatch({ type: MOVIE_INFO_ACTIONS.OPEN_ADMIN_ERROR });
         }
+    };
+
+    const handleReview = (e) => {
+        dispatch({ type: MOVIE_INFO_ACTIONS, payload: { review: e.target.value } });
     };
 
     const deleteMovie = async () => {
@@ -81,11 +85,9 @@ const MovieInfo = () => {
     return (
         <ScrollTop>
             <Container className="p-3 my-3">
-                {state.fetchMovieFailure ? (
-                    <Alert variant="danger">
-                        Error: Movie could not be loaded. Please try again at a later time.
-                    </Alert>
-                ) : null}
+                <Alert variant="danger" show={state.fetchMovieFailure}>
+                    Error: Movie could not be loaded. Please try again at a later time.
+                </Alert>
                 <Modal
                     show={state.hasAdminError}
                     header={'Error'}
@@ -170,14 +172,18 @@ const MovieInfo = () => {
                 ) : null}
             </Container>
             <hr className="movie-info" />
-            <Container className="p-3 text-center">
-                <h1>Reviews</h1>
+            <Container className="p-3">
+                <h1 className="text-center">Reviews</h1>
                 <div className="user-review-container mt-3">
+                    <Alert variant="info" dismissible>
+                        Must be signed in to add a review or rate the movie.
+                    </Alert>
                     <TextArea
                         name="description"
                         type="text"
                         min={0}
                         rows={2}
+                        onChange={handleReview}
                         Icon={MdRateReview}
                         placeholder="Add a public review..."
                         className="mb-1"

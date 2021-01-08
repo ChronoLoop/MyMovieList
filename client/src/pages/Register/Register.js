@@ -55,14 +55,16 @@ const Register = () => {
                         }}
                         className="register-form"
                     >
-                        {showAlert ? (
-                            <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
-                                <Alert.Heading>Server Error</Alert.Heading>
-                                An error occured has occured on the server. Please try again at a
-                                later time.
-                            </Alert>
-                        ) : null}
-                        {isSubmitting}
+                        <Alert
+                            variant="danger"
+                            show={showAlert}
+                            onClose={() => setShowAlert(false)}
+                            dismissible
+                        >
+                            <Alert.Heading>Server Error</Alert.Heading>
+                            An error occured has occured on the server. Please try again at a later
+                            time.
+                        </Alert>
                         <Field
                             name="username"
                             type="input"

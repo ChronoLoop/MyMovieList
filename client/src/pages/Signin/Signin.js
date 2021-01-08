@@ -57,13 +57,17 @@ const Signin = () => {
                         }}
                         className="signin-form"
                     >
-                        {showAlert ? (
-                            <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                        <Alert
+                            variant="danger"
+                            show={showAlert}
+                            onClose={() => setShowAlert(false)}
+                            dismissible
+                        >
+                            {errorMsg && errorMsg.heading ? (
                                 <Alert.Heading>{errorMsg.heading}</Alert.Heading>
-                                {errorMsg.message}
-                            </Alert>
-                        ) : null}
-                        {isSubmitting}
+                            ) : null}
+                            {errorMsg && errorMsg.message}
+                        </Alert>
                         <Field
                             name="username"
                             type="input"

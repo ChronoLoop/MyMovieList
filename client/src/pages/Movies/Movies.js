@@ -97,12 +97,10 @@ const Home = () => {
 
     return (
         <div className="p-5">
-            {state.hasError ? (
-                <Alert variant="danger">
-                    <b>Error:</b> Movies or genres could not be loaded. Please try again at a later
-                    time.
-                </Alert>
-            ) : null}
+            <Alert variant="danger" show={state.hasError}>
+                <b>Error:</b> Movies or genres could not be loaded. Please try again at a later
+                time.
+            </Alert>
             <Row>
                 <Col sm={12} lg={2}>
                     <h4 className="text-muted text-left">Filters</h4>

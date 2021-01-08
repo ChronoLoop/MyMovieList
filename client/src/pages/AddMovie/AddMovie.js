@@ -68,18 +68,22 @@ const AddMovie = () => {
         <div className="p-5 mt-5">
             <h1 className="text-center mb-3">Add New Movie</h1>
             <Container>
-                {movieAdded ? (
-                    <Alert variant="success">
-                        Movie was successfully added. Check out the new movie{' '}
-                        <Link to={`/movies/${addedMovieID}`}>here</Link>.
-                    </Alert>
-                ) : null}
-                {serverError ? (
-                    <Alert variant="danger">
-                        An error has occurred on the server. Please try again at a later time.
-                    </Alert>
-                ) : null}
-                {isAdmin ? null : <Alert variant="info">Only admins can add movies.</Alert>}
+                <Alert variant="success" show={movieAdded} onClose={() => setMovieAdded(false)}>
+                    Movie was successfully added. Check out the new movie{' '}
+                    <Link to={`/movies/${addedMovieID}`}>here</Link>.
+                </Alert>
+                <Alert
+                    variant="danger"
+                    show={serverError}
+                    onClose={() => {
+                        setServerError(false);
+                    }}
+                >
+                    An error has occurred on the server. Please try again at a later time.
+                </Alert>
+                <Alert variant="info" show={!isAdmin} transition={false}>
+                    Only admins can add movies.
+                </Alert>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
