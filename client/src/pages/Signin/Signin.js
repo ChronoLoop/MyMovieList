@@ -24,6 +24,24 @@ const Signin = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
     const history = useHistory();
+
+    const handleSignIn = async (username, password) => {
+        try {
+            const res = await signInUser(username, password);
+            if (res.status === 200) {
+                setIsAuth(true);
+                history.push('/');
+            }
+        } catch (err) {
+            if (err.response.data.incorrectCredentials) {
+                setErrorMsg(CREDENTIAL_ERROR_MESSAGE);
+            } else {
+                setErrorMsg(SERVER_ERROR_MESSAGE);
+            }
+            setShowAlert(true);
+        }
+    };
+
     return (
         <Container fluid className="signin-container">
             <h1 className="text-center">Sign in</h1>
@@ -31,21 +49,9 @@ const Signin = () => {
                 initialValues={{ username: '', password: '' }}
                 onSubmit={async (values, { setSubmitting }) => {
                     setSubmitting(true);
-                    try {
-                        const res = await signInUser(values.username, values.password);
-                        if (res.status === 200) {
-                            setIsAuth(true);
-                            history.push('/');
-                        }
-                    } catch (err) {
-                        if (err.response.data.incorrectCredentials) {
-                            setErrorMsg(CREDENTIAL_ERROR_MESSAGE);
-                        } else {
-                            setErrorMsg(SERVER_ERROR_MESSAGE);
-                        }
-                        setShowAlert(true);
-                    }
-                    setSubmitting(false);
+                    await handleSignIn(values.username, values.password);
+                    //solution for memory leak when setSubmitting : https://github.com/formium/formik/issues/2430
+                    if (window.location.pathname === '/signin') setSubmitting(false);
                 }}
             >
                 {({ isSubmitting, handleSubmit }) => (
