@@ -1,20 +1,36 @@
 const Review = require('../model/review');
 const { updateMovieAverageRating } = require('./helper/index');
 
-exports.getUserRating = async (req, res) => {
+exports.getCurrentUserReview = async (req, res) => {
     if (req.isAuthenticated()) {
         try {
             const movieId = req.params.id;
             const userId = req.user._id;
-            const movieReviews = await Review.findOne({ user: userId, movie: movieId });
+            const userReview = await Review.findOne({ user: userId, movie: movieId });
             res.status(200).json({
-                reviews: movieReviews
+                userReview
             });
         } catch {
             res.status(500).send();
         }
     } else {
         res.status(401).send();
+    }
+};
+
+exports.getMovieReviews = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        // populate: exclude user id and only include username
+        const movieReviews = await Review.find({ movie: movieId }).populate(
+            'user',
+            '-_id username'
+        );
+        res.status(200).json({
+            movieReviews
+        });
+    } catch {
+        res.status(500).send();
     }
 };
 
