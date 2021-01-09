@@ -8,9 +8,9 @@ import GenreFilter from '../../components/GenreFilter/GenreFilter';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
 import MovieGrid from '../../components/MovieGrid/MovieGrid';
-// actions
-import { getGenres } from '../../actions/Genre';
-import { getMovies } from '../../actions/Movie';
+// api
+import { getGenres } from '../../api/Genre';
+import { getMovies } from '../../api/Movie';
 // contexts
 import {
     GENRES_ACTIONS,

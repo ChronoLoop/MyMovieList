@@ -4,9 +4,11 @@ import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import { FaKey, FaUser } from 'react-icons/fa';
 import { Container, Button, Alert } from 'react-bootstrap';
-import Input from '../../components/Input/Input';
 import './Register.scss';
-import { addUser } from '../../actions/User';
+//api
+import { addUser } from '../../api/User';
+//component
+import Input from '../../components/Input/Input';
 
 const validationSchema = yup.object().shape({
     username: yup.string().required('Username is required.'),

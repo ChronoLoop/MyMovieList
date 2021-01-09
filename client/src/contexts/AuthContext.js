@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { checkAuth, checkAdmin } from '../actions/User';
+import { checkAuth, checkAdmin } from '../api/User';
 const AuthContext = React.createContext();
 
 const useAuthContext = () => {

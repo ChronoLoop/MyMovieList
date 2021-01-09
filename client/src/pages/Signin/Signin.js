@@ -4,8 +4,8 @@ import { Formik, Field, Form } from 'formik';
 import { FaKey, FaUser } from 'react-icons/fa';
 import { Container, Button, Alert } from 'react-bootstrap';
 import './Signin.scss';
-//actions
-import { signInUser } from '../../actions/User';
+//api
+import { signInUser } from '../../api/User';
 //components
 import Input from '../../components/Input/Input';
 //context

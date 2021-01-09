@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import './Navbar.scss';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { signOutUser } from '../../actions/User';
+import { signOutUser } from '../../api/User';
 
 const AppNavbar = () => {
     const { isAuth, setIsAuth } = useAuthContext();

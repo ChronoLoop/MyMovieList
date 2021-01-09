@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import TextArea from '../../components/TextArea/TextArea';
 //action
-import { addMovie } from '../../actions/Movie';
+import { addMovie } from '../../api/Movie';
 //context
 import { useAuthContext } from '../../contexts/AuthContext';
 

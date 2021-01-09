@@ -9,8 +9,8 @@ import {
     MOVIE_INFO_ACTIONS,
     ADMIN_ACTIONS
 } from '../../../contexts/MovieInfoContext';
-//actions
-import { getMovieById, deleteMovieById } from '../../../actions/Movie';
+//api
+import { getMovieById, deleteMovieById } from '../../../api/Movie';
 //utils
 import { getMovieImage } from '../../../utils/Movie';
 //components
