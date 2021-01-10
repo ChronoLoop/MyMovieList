@@ -11,7 +11,7 @@ const UserRating = ({ rating, handleRating }) => {
             {[...Array(10)].map((star, i) => {
                 const ratingValue = i + 1;
                 return (
-                    <label className="user-rating">
+                    <label key={i} className="user-rating">
                         <input
                             type="radio"
                             name="rating"

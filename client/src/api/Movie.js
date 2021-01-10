@@ -36,3 +36,7 @@ export const getMovies = (searchQuery, genre, rating, cancelToken) => {
 export const deleteMovieById = (movieId) => {
     return axios.delete(`/api/movies/${movieId}`, { withCredentials: true });
 };
+
+export const getMovieAverageById = (movieId) => {
+    return axios.get(`/api/movies/rating/${movieId}`);
+};

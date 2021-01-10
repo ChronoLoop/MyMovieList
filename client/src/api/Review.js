@@ -1,17 +1,18 @@
 import axios from 'axios';
 
 export const addReview = (movieId, rating, review) => {
+    console.log({ movieId, rating, review });
     return axios.post('/api/review/new', {
-        movie: movieId,
+        movieId: movieId,
         review,
         rating
     });
 };
 
-export const getReviews = (movieId) => {
+export const getMovieReviews = (movieId) => {
     return axios.get(`/api/review/${movieId}`);
 };
 
-export const getUserReview = (movieId) => {
-    return axios.get(`/api/review/user/${movieId}`);
+export const getCurrentUserReview = (movieId) => {
+    return axios.get(`/api/review/user/${movieId}`, { withCredentials: true });
 };

@@ -119,3 +119,13 @@ exports.deleteMovieById = async (req, res) => {
         res.status(500).send();
     }
 };
+
+exports.getMovieAverageById = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const movie = await Movie.findById(movieId);
+        res.status(200).json({ avgRating: movie.avgRating });
+    } catch {
+        res.status(500).send();
+    }
+};

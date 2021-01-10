@@ -14,7 +14,8 @@ const ADMIN_ACTIONS = {
     MOVIE_DELETE_SUCCESS: 'movie-delete-success',
     MOVIE_DELETE_FAILURE: 'movie-delete-failure',
     MOVIE_EDIT_START: 'movie-edit-start',
-    MOVIE_EDIT_END: 'movie-edit-end'
+    MOVIE_EDIT_END: 'movie-edit-end',
+    UPDATE_AVERAGE_RATING: 'update-average-rating'
 };
 
 const reducer = (state, action) => {
@@ -74,6 +75,14 @@ const reducer = (state, action) => {
                 ...state,
                 modalMsg: '',
                 showModal: false
+            };
+        case MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING:
+            return {
+                ...state,
+                movie: {
+                    ...state.movie,
+                    avgRating: action.payload.avgRating
+                }
             };
         default:
             return state;
