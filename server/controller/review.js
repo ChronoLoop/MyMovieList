@@ -58,9 +58,9 @@ exports.addReview = async (req, res) => {
                 );
             }
             // update average rating of movie after review has been added
-            updateMovieAverageRating(movieId);
+            await updateMovieAverageRating(movieId);
             res.status(201).send();
-        } catch {
+        } catch (err) {
             res.status(500).send();
         }
     } else {

@@ -58,7 +58,7 @@ exports.checkUserAuth = async (req, res) => {
     if (req.isAuthenticated()) {
         return res.status(200).send({ auth: true, userID: req.user._id });
     }
-    return res.status(401).send();
+    return res.status(200).send({ auth: false });
 };
 
 exports.checkAdmin = async (req, res) => {

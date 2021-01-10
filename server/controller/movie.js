@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Movie = require('../model/movie');
-const { addGenre, isAdmin, deleteGenre } = require('./helper/index.js');
+const { addGenre, isAdmin, deleteGenre, deleteReviews } = require('./helper/index.js');
 
 const IMAGE_MIMETYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -60,7 +60,7 @@ exports.addMovie = async (req, res) => {
                 // save new movie in db
                 await newMovie.save();
                 // add genre to db
-                addGenre(newMovie.genre);
+                await addGenre(newMovie.genre);
                 res.status(201).json({ movieID: newMovie.id });
             }
         });
@@ -106,7 +106,8 @@ exports.deleteMovieById = async (req, res) => {
                 const genreFilter = { genre: movie.genre };
                 const movieWithPrevGenre = await Movie.findOne(genreFilter);
                 if (!movieWithPrevGenre) {
-                    deleteGenre(movie.genre);
+                    await deleteGenre(movie.genre);
+                    await deleteReviews(movieId);
                 }
             }
             res.status(204).send();

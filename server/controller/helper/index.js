@@ -19,6 +19,11 @@ exports.deleteGenre = async (genreName) => {
     await Genre.findOneAndDelete(filter);
 };
 
+exports.deleteReviews = async (movieId) => {
+    const filter = { movie: movieId };
+    await Review.deleteMany(filter);
+};
+
 exports.updateGenre = async (prevGenreName, newGenreName) => {
     const filter = { genre: prevGenreName.toLowerCase() };
     const update = { genre: newGenreName.toLowerCase() };
@@ -42,6 +47,7 @@ exports.updateMovieAverageRating = async (movieId) => {
             $group: { _id: movieId, avgRating: { $avg: '$rating' } }
         }
     ]);
-    const update = { avgRating: result[0].avgRating };
+    const update = { avgRating: result[0] ? result[0].avgRating : null };
+
     await Movie.findByIdAndUpdate(movieId, update, { useFindAndModify: false });
 };
