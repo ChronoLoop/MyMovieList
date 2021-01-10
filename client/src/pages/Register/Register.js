@@ -62,6 +62,7 @@ const Register = () => {
                             show={showAlert}
                             onClose={() => setShowAlert(false)}
                             dismissible
+                            transition={false}
                         >
                             <Alert.Heading>Server Error</Alert.Heading>
                             An error occured has occured on the server. Please try again at a later

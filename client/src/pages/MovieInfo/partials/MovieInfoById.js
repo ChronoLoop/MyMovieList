@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, Alert, Row, Col, Image } from 'react-bootstrap';
+import { Button, Alert, Row, Col, Image, Container } from 'react-bootstrap';
 import '../MovieInfo.scss';
 //context
 import { useAuthContext } from '../../../contexts/AuthContext';
@@ -45,7 +45,7 @@ const MovieInfoById = () => {
                     payload: { movie: movieData }
                 });
             } catch {
-                dispatch({ type: ADMIN_ACTIONS.MOVIE_FETCH_FAILURE });
+                dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_FETCH_FAILURE });
             }
         };
         fetchMovie();
@@ -80,21 +80,21 @@ const MovieInfoById = () => {
     };
 
     return (
-        <>
-            <Alert variant="danger" show={state.fetchMovieFailure}>
-                Error: Movie could not be loaded. Please try again at a later time.
+        <Container className="p-3 my-3">
+            <Alert variant="danger" show={state.showError} transition={false}>
+                {state.errorMsg}
             </Alert>
             <Modal
-                show={state.hasAdminError}
+                show={state.showModal}
                 header={'Error'}
-                message={'Only admins can edit or delete movies.'}
+                message={state.modalMsg}
                 onHide={() => dispatch({ type: ADMIN_ACTIONS.CLOSE_ADMIN_ERROR })}
             />
             <Modal
                 show={state.showDeleteModal}
                 header={'Delete Confirmation'}
                 message={'Are you sure you want to delete this movie?'}
-                onHide={() => dispatch({ type: MOVIE_INFO_ACTIONS.MOVIE_DELETE_END })}
+                onHide={() => dispatch({ type: ADMIN_ACTIONS.MOVIE_DELETE_END })}
                 onConfirm={() => deleteMovie()}
             />
             {state.isLoadingMovie ? <h1>Loading Movie...</h1> : null}
@@ -157,7 +157,7 @@ const MovieInfoById = () => {
                     </Col>
                 </Row>
             ) : null}
-        </>
+        </Container>
     );
 };
 

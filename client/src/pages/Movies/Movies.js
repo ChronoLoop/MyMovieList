@@ -97,7 +97,7 @@ const Home = () => {
 
     return (
         <div className="p-5">
-            <Alert variant="danger" show={state.hasError}>
+            <Alert variant="danger" show={state.hasError} transition={false}>
                 <b>Error:</b> Movies or genres could not be loaded. Please try again at a later
                 time.
             </Alert>

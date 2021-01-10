@@ -68,7 +68,12 @@ const AddMovie = () => {
         <div className="p-5 mt-5">
             <h1 className="text-center mb-3">Add New Movie</h1>
             <Container>
-                <Alert variant="success" show={movieAdded} onClose={() => setMovieAdded(false)}>
+                <Alert
+                    variant="success"
+                    show={movieAdded}
+                    onClose={() => setMovieAdded(false)}
+                    transition={false}
+                >
                     Movie was successfully added. Check out the new movie{' '}
                     <Link to={`/movies/${addedMovieID}`}>here</Link>.
                 </Alert>
@@ -78,6 +83,7 @@ const AddMovie = () => {
                     onClose={() => {
                         setServerError(false);
                     }}
+                    transition={false}
                 >
                     An error has occurred on the server. Please try again at a later time.
                 </Alert>

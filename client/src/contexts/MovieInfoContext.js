@@ -13,15 +13,8 @@ const ADMIN_ACTIONS = {
     MOVIE_DELETE_END: 'movie-delete-end',
     MOVIE_DELETE_SUCCESS: 'movie-delete-success',
     MOVIE_DELETE_FAILURE: 'movie-delete-failure',
-    MOVIE_EDIT_START: 'movie-edit-start'
-};
-
-const MOVIE_REVIEW_ACTIONS = {
-    SET_REVIEW: 'set-review',
-    MOVIE_REVIEWS_FETCH_START: 'movies-reviews-fetch-start',
-    MOVIE_REVIEWS_FETCH_SUCCESS: 'movies-reviews-fetch-success',
-    OPEN_REVIEW_AUTH_ERROR: 'open-review-auth-error',
-    CLOSE_REVIEW_AUTH_ERROR: 'close-review-auth-error'
+    MOVIE_EDIT_START: 'movie-edit-start',
+    MOVIE_EDIT_END: 'movie-edit-end'
 };
 
 const reducer = (state, action) => {
@@ -29,75 +22,58 @@ const reducer = (state, action) => {
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_START:
             return {
                 ...state,
-                fetchMovieFailure: false,
                 isLoadingMovie: true
             };
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_SUCCESS:
             return {
                 ...state,
                 movie: action.payload.movie,
-                fetchMovieFailure: false,
                 isLoadingMovie: false
             };
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_FAILURE:
             return {
                 ...state,
-                fetchMovieFailure: true,
-                isLoadingMovie: false
+                isLoadingMovie: false,
+                errorMsg: 'Error: Movie could not be loaded. Please try again at a later time.',
+                showError: true
             };
         case ADMIN_ACTIONS.MOVIE_DELETE_START:
             return {
                 ...state,
-                hasAdminError: false,
-                deleteMovieFailure: false,
                 showDeleteModal: true
             };
         case ADMIN_ACTIONS.MOVIE_DELETE_END:
             return {
                 ...state,
-                hasAdminError: false,
-                deleteMovieFailure: false,
                 showDeleteModal: false
-            };
-        case ADMIN_ACTIONS.MOVIE_DELETE_SUCCESS:
-            return {
-                ...state,
-                deleteMovieFailure: false
             };
         case ADMIN_ACTIONS.MOVIE_DELETE_FAILURE:
             return {
                 ...state,
-                deleteMovieFailure: true
+                modalMsg: 'Movie could not be deleted. Please try again or at a later time.',
+                showModal: true
             };
         case ADMIN_ACTIONS.MOVIE_EDIT_START:
             return {
                 ...state,
-                hasAdminError: false
+                editMode: true
+            };
+        case ADMIN_ACTIONS.MOVIE_EDIT_END:
+            return {
+                ...state,
+                editMode: false
             };
         case ADMIN_ACTIONS.OPEN_ADMIN_ERROR:
             return {
                 ...state,
-                hasAdminError: true
+                modalMsg: 'Only admins can edit or delete movies.',
+                showModal: true
             };
         case ADMIN_ACTIONS.CLOSE_ADMIN_ERROR:
             return {
                 ...state,
-                hasAdminError: false
-            };
-        case MOVIE_REVIEW_ACTIONS.SET_REVIEW:
-            return {
-                ...state,
-                review: action.payload.review
-            };
-        case MOVIE_REVIEW_ACTIONS.OPEN_REVIEW_AUTH_ERROR:
-            return {
-                ...state,
-                reviewAuthError: true
-            };
-        case MOVIE_REVIEW_ACTIONS.CLOSE_REVIEW_AUTH_ERROR:
-            return {
-                ...state,
-                reviewAuthError: false
+                modalMsg: '',
+                showModal: false
             };
         default:
             return state;
@@ -106,13 +82,13 @@ const reducer = (state, action) => {
 
 const initialState = {
     isLoadingMovie: true,
-    fetchMovieFailure: false,
+    editMode: false,
     movie: null,
-    hasAdminError: false,
     showDeleteModal: false,
-    deleteMovieFailure: false, //Todo: need to include
-    review: '',
-    reviewAuthError: false
+    errorMsg: '',
+    showError: false,
+    modalMsg: '',
+    showModal: false
 };
 
 const MovieInfoContext = React.createContext();
@@ -130,10 +106,4 @@ const MovieInfoProvider = ({ children }) => {
     );
 };
 
-export {
-    MovieInfoProvider,
-    useMovieInfoContext,
-    MOVIE_INFO_ACTIONS,
-    ADMIN_ACTIONS,
-    MOVIE_REVIEW_ACTIONS
-};
+export { MovieInfoProvider, useMovieInfoContext, MOVIE_INFO_ACTIONS, ADMIN_ACTIONS };
