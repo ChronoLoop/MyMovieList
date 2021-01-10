@@ -147,6 +147,29 @@ const MovieReviews = () => {
     const { isLoadingMovie, fetchMovieFailure } = movieInfoState;
     let { id: movieId } = useParams();
 
+    //used to refetech rating and reviews after submitting review
+    const refetchData = async () => {
+        //refetch movie reviews
+        reviewDispatch({
+            type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_START
+        });
+        const movieReviewsRes = await getMovieReviews(movieId);
+        reviewDispatch({
+            type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_SUCCESS,
+            payload: { movieReviews: movieReviewsRes.data.movieReviews }
+        });
+        //refetch movie avg rating
+        const avgRatingRes = await getMovieAverageById(movieId);
+        movieInfoDispatch({
+            type: MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING,
+            payload: {
+                avgRating: avgRatingRes.data.avgRating
+                    ? parseFloat(avgRatingRes.data.avgRating).toFixed(2)
+                    : null
+            }
+        });
+    };
+
     //movie reviews
     useEffect(() => {
         const fetchMovieReviews = async () => {
@@ -208,21 +231,7 @@ const MovieReviews = () => {
                 const res = await addReview(movieId, reviewState.rating, reviewState.review);
                 if (res.status === 201) {
                     reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_POST_SUCCESS });
-                    //refetch movie reviews
-                    reviewDispatch({
-                        type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_START
-                    });
-                    const movieReviewsRes = await getMovieReviews(movieId);
-                    reviewDispatch({
-                        type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_SUCCESS,
-                        payload: { movieReviews: movieReviewsRes.data.movieReviews }
-                    });
-                    //refetch movie avg rating
-                    const avgRatingRes = await getMovieAverageById(movieId);
-                    movieInfoDispatch({
-                        type: MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING,
-                        payload: { avgRating: avgRatingRes.data.avgRating }
-                    });
+                    await refetchData();
                 }
             } catch {
                 reviewDispatch({

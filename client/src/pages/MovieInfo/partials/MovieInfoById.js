@@ -115,7 +115,11 @@ const MovieInfoById = () => {
                                         movie.movieLength.minutes +
                                         'm'}
                                 </time>
-                                <MovieRating rating={movie.avgRating} center={true} />
+                                <MovieRating
+                                    rating={movie.avgRating}
+                                    center={true}
+                                    className="mt-1"
+                                />
                             </div>
                         </div>
                         <Image fluid src={movie.image} alt="movie" className="movie-info-image" />
