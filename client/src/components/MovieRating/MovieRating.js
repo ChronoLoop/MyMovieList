@@ -2,7 +2,7 @@ import React from 'react';
 import './MovieRating.scss';
 import { FaStar } from 'react-icons/fa';
 
-const MovieRating = ({ rating, center, className, comment = '' }) => {
+const MovieRating = ({ rating, center, className }) => {
     return (
         <div
             className={`movie-rating ${
@@ -10,7 +10,7 @@ const MovieRating = ({ rating, center, className, comment = '' }) => {
             } ${className}`}
         >
             <FaStar className="icon mr-1" />
-            <span>{(rating || 'N/A') + comment}</span>
+            <span>{rating || 'N/A'}</span>
         </div>
     );
 };

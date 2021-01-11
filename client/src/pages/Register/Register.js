@@ -11,7 +11,10 @@ import { addUser } from '../../api/User';
 import Input from '../../components/Input/Input';
 
 const validationSchema = yup.object().shape({
-    username: yup.string().required('Username is required.'),
+    username: yup
+        .string()
+        .required('Username is required.')
+        .max(20, 'Username cannot be longer than 20 characters.'),
     password: yup
         .string()
         .required('Password is required')

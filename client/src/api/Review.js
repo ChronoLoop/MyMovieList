@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const addReview = (movieId, rating, review) => {
-    console.log({ movieId, rating, review });
     return axios.post('/api/review/new', {
         movieId: movieId,
         review,

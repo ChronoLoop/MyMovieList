@@ -1,19 +1,22 @@
+$icon-color: #fbc531;
+
 ul.user-reviews {
     list-style: none;
-}
 
-.user-reviews {
     & .author-header {
         font-size: 1.3rem;
         font-weight: 500;
         line-height: 1.8rem;
     }
-}
-
-.user-reviews {
     & .content {
         font-size: 1rem;
         line-height: 2rem;
         font-weight: 400;
+    }
+    & .content .icon {
+        color: $icon-color;
+    }
+    & > li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     }
 }
