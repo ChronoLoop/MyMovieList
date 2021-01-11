@@ -1,6 +1,6 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const Movie = require('../model/movie');
-const { addGenre, isAdmin, deleteGenre, deleteReviews } = require('./helper/index.js');
+const { updateGenre, addGenre, isAdmin, deleteGenre, deleteReviews } = require('./helper/index.js');
 
 const IMAGE_MIMETYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -40,35 +40,31 @@ function getMovieFilter(searchQuery, genre, rating) {
 
 exports.addMovie = async (req, res) => {
     try {
-        fs.readFile(req.file.path, async (err, data) => {
-            if (err) throw err;
-            if (validMimeType(req.file.mimetype) !== true) {
-                res.status(400).send();
-            } else {
-                const contentType = req.file.mimetype;
-                const newMovie = new Movie({
-                    title: req.body.title,
-                    genre: req.body.genre,
-                    trailerLink: req.body.trailerLink,
-                    movieLength: {
-                        hours: req.body.hours,
-                        minutes: req.body.minutes
-                    },
-                    description: req.body.description,
-                    image: { data, contentType }
-                });
-                // save new movie in db
-                await newMovie.save();
-                // add genre to db
-                await addGenre(newMovie.genre);
-                res.status(201).json({ movieID: newMovie.id });
-            }
-        });
+        const data = await fs.readFile(req.file.path);
+        if (validMimeType(req.file.mimetype) !== true) {
+            res.status(400).send();
+        } else {
+            const contentType = req.file.mimetype;
+            const newMovie = new Movie({
+                title: req.body.title,
+                genre: req.body.genre,
+                trailerLink: req.body.trailerLink,
+                movieLength: {
+                    hours: req.body.hours,
+                    minutes: req.body.minutes
+                },
+                description: req.body.description,
+                image: { data, contentType }
+            });
+            // save new movie in db
+            await newMovie.save();
+            // add genre to db
+            await addGenre(newMovie.genre);
+            res.status(201).json({ movieID: newMovie.id });
+        }
         // delete movie image after saving movie to db
-        fs.unlink(req.file.path, (fsError) => {
-            if (fsError) throw fsError;
-        });
-    } catch (err) {
+        await fs.unlink(req.file.path);
+    } catch {
         res.status(500).send();
     }
 };
@@ -126,6 +122,40 @@ exports.getMovieAverageById = async (req, res) => {
         const movie = await Movie.findById(movieId);
         res.status(200).json({ avgRating: movie.avgRating });
     } catch {
+        res.status(500).send();
+    }
+};
+
+exports.updateMovieById = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const { title, genre, prevGenre, trailerLink, hours, minutes, description } = req.body;
+        const update = {
+            title,
+            genre,
+            trailerLink,
+            movieLength: {
+                hours,
+                minutes
+            },
+            description
+        };
+        if (req.file) {
+            const data = await fs.readFile(req.file.path);
+            if (validMimeType(req.file.mimetype) !== true) {
+                res.status(400).send();
+            } else {
+                const contentType = req.file.mimetype;
+                update.image = { data, contentType };
+            }
+            await fs.unlink(req.file.path);
+        }
+        // update movie in db
+        await Movie.findByIdAndUpdate(movieId, update, { useFindAndModify: false });
+        // update genre to db
+        await updateGenre(prevGenre, genre);
+        res.status(200).send();
+    } catch (err) {
         res.status(500).send();
     }
 };

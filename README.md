@@ -44,11 +44,11 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
   - [x] Form
   - [x] Create Movie
 
-- [ ] Movie Page
+- [x] Movie Page
   - [x] Movie Information
   - [x] Create/Fetch Reviews
   - [x] Create/Fetch Ratings
-  - [ ] Edit Movie
+  - [x] Edit Movie
   - [x] Delete Movie
 
 - [x] Login/Register Page
@@ -57,10 +57,10 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
   - [x] User Authentication
   - [x] Admin Authentication
 
-- [ ] Admin features
+- [x] Admin features
   - [x] Create movies
   - [x] Delete movies
-  - [ ] Edit movies
+  - [x] Edit movies
 
 - [x] User Features
   - [x] Review movies

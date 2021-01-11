@@ -40,3 +40,21 @@ export const deleteMovieById = (movieId) => {
 export const getMovieAverageById = (movieId) => {
     return axios.get(`/api/movies/rating/${movieId}`);
 };
+
+export const updateMovie = (movie, movieId, prevGenre) => {
+    const contentType = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    };
+    const formData = new FormData();
+    formData.append('title', toTitleCase(movie.title));
+    formData.append('genre', toTitleCase(movie.genre));
+    formData.append('prevGenre', toTitleCase(prevGenre));
+    formData.append('trailerLink', movie.trailerLink);
+    formData.append('hours', movie.hours);
+    formData.append('minutes', movie.minutes);
+    formData.append('description', movie.description);
+    formData.append('image', movie.image);
+    return axios.put(`/api/movies/${movieId}`, formData, contentType);
+};

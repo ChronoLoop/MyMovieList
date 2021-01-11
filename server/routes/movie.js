@@ -7,7 +7,8 @@ const {
     getMovies,
     getMovieById,
     deleteMovieById,
-    getMovieAverageById
+    getMovieAverageById,
+    updateMovieById
 } = require('../controller/movie');
 
 // store images in client/public
@@ -33,4 +34,5 @@ router.get('/', getMovies);
 router.get('/:id', getMovieById);
 router.delete('/:id', deleteMovieById);
 router.get('/rating/:id', getMovieAverageById);
+router.put('/:id', upload.single('image'), updateMovieById);
 module.exports = router;
