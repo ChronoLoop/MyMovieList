@@ -8,6 +8,7 @@ import GenreFilter from '../../components/GenreFilter/GenreFilter';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
 import MovieGrid from '../../components/MovieGrid/MovieGrid';
+import Pagination from '../../components/Pagination/Pagination';
 // api
 import { getGenres } from '../../api/Genre';
 import { getMovies } from '../../api/Movie';
@@ -21,7 +22,6 @@ import {
 
 const Home = () => {
     const { state, dispatch } = useMovieContext();
-
     //Fetch Movies everytime searchQuery/genre/ratings changes
     useEffect(() => {
         dispatch({
@@ -33,12 +33,14 @@ const Home = () => {
                     state.searchQuery,
                     state.currentGenre,
                     state.rating,
+                    state.currentPage,
+                    state.pageLimit,
                     cancelToken
                 );
-                const movies = res.data.movies;
+                const { movies, movieCount } = res.data;
                 dispatch({
                     type: MOVIE_ACTIONS.MOVIES_FETCH_SUCCESS,
-                    payload: { movies: movies }
+                    payload: { movies: movies, movieCount: movieCount }
                 });
             } catch (err) {
                 axios.isCancel(err) || dispatch({ type: MOVIE_ACTIONS.MOVIES_FETCH_FAILURE });
@@ -52,7 +54,14 @@ const Home = () => {
             cancel('Operation canceled.');
             clearTimeout(timeOutId);
         };
-    }, [dispatch, state.searchQuery, state.currentGenre, state.rating]);
+    }, [
+        dispatch,
+        state.searchQuery,
+        state.currentGenre,
+        state.rating,
+        state.currentPage,
+        state.pageLimit
+    ]);
 
     //Fetch Genres
     useEffect(() => {
@@ -128,10 +137,19 @@ const Home = () => {
                         placeholder="Search..."
                         className="mt-sm-3 mt-lg-0"
                     />
-                    <p className="text-muted text-left mt-1">
-                        {state.movies && state.movies.length} movies found
-                    </p>
+                    <p className="text-muted text-left mt-1">{state.movieCount} movies found</p>
                     {state.isLoadingMovies ? <Loader /> : <MovieGrid movies={state.movies} />}
+                    <Pagination
+                        movieCount={state.movieCount}
+                        currentPage={state.currentPage}
+                        limit={state.pageLimit}
+                        setPage={(page) =>
+                            dispatch({
+                                type: MOVIE_ACTIONS.SET_CURRENT_PAGE,
+                                payload: { page: page }
+                            })
+                        }
+                    />
                 </Col>
             </Row>
         </div>

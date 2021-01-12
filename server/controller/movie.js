@@ -82,10 +82,15 @@ exports.getMovieById = async (req, res) => {
 
 exports.getMovies = async (req, res) => {
     try {
-        const { searchQuery, genre, rating } = req.query;
+        const { searchQuery, genre, rating, page, limit } = req.query;
         const filter = getMovieFilter(searchQuery, genre, rating);
-        const movies = await Movie.find(filter);
-        res.status(200).json({ movies });
+        const [movies, movieCount] = await Promise.all([
+            await Movie.find(filter)
+                .limit(limit * 1)
+                .skip((page - 1) * limit),
+            await Movie.find(filter).countDocuments()
+        ]);
+        res.status(200).json({ movies, movieCount });
     } catch {
         res.status(500).send();
     }

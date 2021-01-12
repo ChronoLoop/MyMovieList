@@ -1,0 +1,33 @@
+$bg: #4b5259;
+$bg-hover: #585f68;
+$red-bg: #c23616;
+
+ul.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+
+    & > li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 5px 5px;
+        border: 1px solid $bg-hover;
+        border-radius: 8px;
+        background-color: $bg;
+        color: #fff;
+    }
+
+    & > li:hover {
+        background-color: $bg-hover;
+        cursor: pointer;
+    }
+    & > li.active {
+        background-color: $red-bg !important;
+    }
+}

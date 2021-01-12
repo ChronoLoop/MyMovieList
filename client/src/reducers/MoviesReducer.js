@@ -2,7 +2,8 @@ const MOVIE_ACTIONS = {
     SET_SEARCH_QUERY: 'set-search-query',
     MOVIES_FETCH_START: 'movies-fetch-start',
     MOVIES_FETCH_SUCCESS: 'movies-fetch-success',
-    MOVIES_FETCH_FAILURE: 'movies-fetch-failure'
+    MOVIES_FETCH_FAILURE: 'movies-fetch-failure',
+    SET_CURRENT_PAGE: 'set-current-page'
 };
 
 const GENRES_ACTIONS = {
@@ -20,7 +21,14 @@ const reducer = (state, action) => {
         case MOVIE_ACTIONS.SET_SEARCH_QUERY:
             return {
                 ...state,
-                searchQuery: action.payload.searchQuery
+                searchQuery: action.payload.searchQuery,
+                currentPage: 1,
+                movieCount: 0
+            };
+        case MOVIE_ACTIONS.SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.payload.page
             };
         case MOVIE_ACTIONS.MOVIES_FETCH_START:
             return {
@@ -42,13 +50,13 @@ const reducer = (state, action) => {
                 isLoadingMovies: false
             };
         case GENRES_ACTIONS.SET_CURRENT_GENRE:
-            return { ...state, currentGenre: action.payload.genre };
+            return { ...state, currentGenre: action.payload.genre, currentPage: 1, movieCount: 0 };
         case GENRES_ACTIONS.GENRES_FETCH_SUCCESS:
             return { ...state, genres: action.payload.genres };
         case GENRES_ACTIONS.GENRES_FETCH_FAILURE:
             return { ...state, hasError: true };
         case RATING_ACTIONS.SET_RATING:
-            return { ...state, rating: action.payload.rating };
+            return { ...state, rating: action.payload.rating, currentPage: 1, movieCount: 0 };
         default:
             return state;
     }
@@ -62,8 +70,8 @@ const initialState = {
     movies: [],
     isLoadingMovies: true,
     hasError: false,
-    page: 1,
-    limit: 12,
+    currentPage: 1,
+    pageLimit: 12,
     movieCount: 0
 };
 

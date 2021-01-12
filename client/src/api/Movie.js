@@ -22,8 +22,14 @@ export const addMovie = (movie) => {
     return axios.post('/api/movies/new', formData, contentType);
 };
 
-export const getMovies = (searchQuery, genre, rating, cancelToken) => {
-    const query = { searchQuery: toTitleCase(searchQuery), genre: toTitleCase(genre), rating };
+export const getMovies = (searchQuery, genre, rating, page, limit, cancelToken) => {
+    const query = {
+        searchQuery: toTitleCase(searchQuery),
+        genre: toTitleCase(genre),
+        page,
+        limit,
+        rating
+    };
     return axios.get(
         '/api/movies',
         {

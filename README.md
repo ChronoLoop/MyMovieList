@@ -32,13 +32,13 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
 
 ## TODOS
 
-- [ ] Home Page (Movies)
+- [x] Home Page (Movies)
   - [x] Genre Filter
   - [x] Rating Filter
   - [x] Search Filter
   - [x] Movie Grid
     - [x] MovieCardS
-    - [ ] Pagination
+    - [x] Pagination
 
 - [x] Add Movie Page
   - [x] Form
