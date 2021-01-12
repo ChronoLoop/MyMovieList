@@ -1,7 +1,8 @@
 const MOVIE_INFO_ACTIONS = {
     MOVIE_FETCH_START: 'movie-fetch-start',
     MOVIE_FETCH_SUCCESS: 'movie-fetch-success',
-    MOVIE_FETCH_FAILURE: 'movie-fetch-failure'
+    MOVIE_FETCH_FAILURE: 'movie-fetch-failure',
+    UPDATE_AVERAGE_RATING: 'update-average-rating'
 };
 
 const ADMIN_ACTIONS = {
@@ -12,8 +13,7 @@ const ADMIN_ACTIONS = {
     MOVIE_DELETE_SUCCESS: 'movie-delete-success',
     MOVIE_DELETE_FAILURE: 'movie-delete-failure',
     MOVIE_EDIT_START: 'movie-edit-start',
-    MOVIE_EDIT_END: 'movie-edit-end',
-    UPDATE_AVERAGE_RATING: 'update-average-rating'
+    MOVIE_EDIT_END: 'movie-edit-end'
 };
 
 const reducer = (state, action) => {
@@ -35,6 +35,14 @@ const reducer = (state, action) => {
                 isLoadingMovie: false,
                 errorMsg: 'Error: Movie could not be loaded. Please try again at a later time.',
                 showError: true
+            };
+        case MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING:
+            return {
+                ...state,
+                movie: {
+                    ...state.movie,
+                    avgRating: action.payload.avgRating
+                }
             };
         case ADMIN_ACTIONS.MOVIE_DELETE_START:
             return {
@@ -73,14 +81,6 @@ const reducer = (state, action) => {
                 ...state,
                 modalMsg: '',
                 showModal: false
-            };
-        case MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING:
-            return {
-                ...state,
-                movie: {
-                    ...state.movie,
-                    avgRating: action.payload.avgRating
-                }
             };
         default:
             return state;
