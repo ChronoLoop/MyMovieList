@@ -32,7 +32,7 @@ exports.signInUser = async (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.status(400).send({ incorrectCredentials: true });
+            return res.status(400).json({ incorrectCredentials: true });
         }
         req.login(user, (error) => {
             if (error) {
@@ -56,17 +56,17 @@ exports.signOutUser = async (req, res) => {
 
 exports.checkUserAuth = async (req, res) => {
     if (req.isAuthenticated()) {
-        return res.status(200).send({ auth: true, userID: req.user._id });
+        return res.status(200).json({ auth: true, userID: req.user._id });
     }
-    return res.status(200).send({ auth: false });
+    return res.status(200).json({ auth: false });
 };
 
 exports.checkAdmin = async (req, res) => {
     try {
         if (await isAdmin(req.user._id)) {
-            res.status(200).send({ admin: true });
+            res.status(200).json({ admin: true });
         } else {
-            res.status(401).send({ admin: false });
+            res.status(401).json({ admin: false });
         }
     } catch (err) {
         res.status(401).send();

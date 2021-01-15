@@ -37,9 +37,11 @@ const PassportConfig = (passport) => {
 
     passport.use(localStrategy);
 
+    // put user id in session
     passport.serializeUser((user, done) => {
         done(null, user._id);
     });
+    // get user id from session and find user in database
     passport.deserializeUser(async (userId, done) => {
         try {
             const user = await User.findById(userId);
