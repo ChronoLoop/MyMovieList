@@ -21,20 +21,23 @@ const reducer = (state, action) => {
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_START:
             return {
                 ...state,
-                isLoadingMovie: true
+                isLoadingMovie: true,
+                fetchMovieFailure: false
             };
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_SUCCESS:
             return {
                 ...state,
                 movie: action.payload.movie,
-                isLoadingMovie: false
+                isLoadingMovie: false,
+                fetchMovieFailure: false
             };
         case MOVIE_INFO_ACTIONS.MOVIE_FETCH_FAILURE:
             return {
                 ...state,
                 isLoadingMovie: false,
                 errorMsg: 'Error: Movie could not be loaded. Please try again at a later time.',
-                showError: true
+                showError: true,
+                fetchMovieFailure: true
             };
         case MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING:
             return {
@@ -89,6 +92,7 @@ const reducer = (state, action) => {
 
 const initialState = {
     isLoadingMovie: true,
+    fetchMovieFailure: false,
     editMode: false,
     movie: null,
     showDeleteModal: false,

@@ -9,7 +9,7 @@ export const addReview = (movieId, rating, review) => {
 };
 
 export const getMovieReviews = (movieId) => {
-    return axios.get(`/api/review/${movieId}`);
+    return axios.get(`/api/review/movie/${movieId}`);
 };
 
 export const getCurrentUserReview = (movieId) => {

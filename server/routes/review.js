@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/new', addReview);
 router.get('/user/:id', getCurrentUserReview);
-router.get('/:id', getMovieReviews);
+router.get('/movie/:id', getMovieReviews);
 
 module.exports = router;
