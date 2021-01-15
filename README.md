@@ -3,7 +3,12 @@ MyMovieList is a simple database web app where users can search for movies and r
 
 <b>Website: </b> <a href="https://mymovielist-kevin.herokuapp.com">https://mymovielist-kevin.herokuapp.com</a>
 
+<b>Home Page</b>
 <img width="1438" alt="screenshot" src="images/home_page.png">
+</br>
+</br>
+<b>Movie Info Page</b>
+<img width="1438" alt="screenshot" src="images/movie_info_page.png">
 
 <h2>Installation</h2>
 
