@@ -72,7 +72,6 @@ const MovieReviews = () => {
 
     //movie reviews
     useEffect(() => {
-        console.log('useffect');
         fetchData();
     }, [fetchData]);
 

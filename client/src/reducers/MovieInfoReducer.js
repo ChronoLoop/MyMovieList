@@ -10,7 +10,6 @@ const ADMIN_ACTIONS = {
     CLOSE_ADMIN_ERROR: 'close-admin-error',
     MOVIE_DELETE_START: 'movie-delete-start',
     MOVIE_DELETE_END: 'movie-delete-end',
-    MOVIE_DELETE_SUCCESS: 'movie-delete-success',
     MOVIE_DELETE_FAILURE: 'movie-delete-failure',
     MOVIE_EDIT_START: 'movie-edit-start',
     MOVIE_EDIT_END: 'movie-edit-end'

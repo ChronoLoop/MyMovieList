@@ -71,14 +71,14 @@ const MovieInfoById = () => {
         try {
             const res = await deleteMovieById(movieId);
             if (res.status === 204) {
-                dispatch({ type: ADMIN_ACTIONS.MOVIE_DELETE_SUCCESS });
+                dispatch({ type: ADMIN_ACTIONS.MOVIE_DELETE_END });
                 history.push('/');
             }
         } catch {
             dispatch({ type: ADMIN_ACTIONS.MOVIE_DELETE_FAILURE });
+            dispatch({ type: ADMIN_ACTIONS.MOVIE_DELETE_END });
         }
     };
-
     return (
         <Container className="p-3 my-3">
             <Alert variant="danger" show={state.showError} transition={false}>
