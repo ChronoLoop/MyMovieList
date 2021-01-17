@@ -25,8 +25,8 @@ const PageRoutes = () => {
 
     return (
         <div className="background-container">
-            <Navbar />
             <Router>
+                <Navbar />
                 <Switch>
                     <Route exact path="/movies/new" render={(props) => <AddMovie {...props} />} />
                     <Route exact path="/movies" render={(props) => <Movies {...props} />} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Navbar.scss';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { signOutUser } from '../../api/User';
@@ -22,24 +23,27 @@ const AppNavbar = () => {
     };
     return (
         <Navbar expand="sm" sticky="top" variant="dark">
-            <Navbar.Brand className="ml-md-2 ml-lg-3" href="/">
+            <Navbar.Brand as={Link} to="/" className="ml-md-2 ml-lg-3">
                 MyMovieList
             </Navbar.Brand>
+
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="ml-auto mr-md-2  mr-lg-3">
-                    <Nav.Link href="/movies/new">Add Movie</Nav.Link>
+                    <Nav.Link as={Link} to="/movies/new">
+                        Add Movie
+                    </Nav.Link>
                     {isAuth ? null : (
                         <>
-                            <Nav.Link href="/signin">Sign In</Nav.Link>
-                            <Nav.Link href="/register">Register</Nav.Link>
+                            <Nav.Link as={Link} to="/signin">
+                                Sign In
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/register">
+                                Register
+                            </Nav.Link>
                         </>
                     )}
-                    {isAuth ? (
-                        <Nav.Link href="/signout" onClick={handleSignOut}>
-                            Sign Out
-                        </Nav.Link>
-                    ) : null}
+                    {isAuth ? <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link> : null}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
