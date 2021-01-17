@@ -40,6 +40,7 @@ function getMovieFilter(searchQuery, genre, rating) {
 
 exports.addMovie = async (req, res) => {
     try {
+        if (!req.isAuthenticated()) return res.status(401).send();
         // check if admin
         if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
         const data = await fs.readFile(req.file.path);
@@ -99,6 +100,7 @@ exports.getMovies = async (req, res) => {
 
 exports.deleteMovieById = async (req, res) => {
     try {
+        if (!req.isAuthenticated()) return res.status(401).send();
         // check if admin
         if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
 
@@ -131,6 +133,7 @@ exports.getMovieAverageById = async (req, res) => {
 
 exports.updateMovieById = async (req, res) => {
     try {
+        if (!req.isAuthenticated()) return res.status(401).send();
         if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
         const movieId = req.params.id;
         const { title, genre, prevGenre, trailerLink, hours, minutes, description } = req.body;
