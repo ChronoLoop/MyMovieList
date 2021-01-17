@@ -47,12 +47,12 @@ npm run dev
 
 <h4> Movies </h4>
 <ul>
-  <li> <b>POST</b> /api/movie/new </li>
-  <li> <b>GET</b> /api/movie </li>
-  <li> <b>GET</b> /api/movie/:id </li>
-  <li> <b>GET</b> /api/movie/rating/:id </li>
-  <li> <b>DELETE</b> /api/movie/:id </li>
-  <li> <b>PUT</b> /api/movie/:id </li>
+  <li> <b>POST</b> /api/movies/new </li>
+  <li> <b>GET</b> /api/movies </li>
+  <li> <b>GET</b> /api/movies/:id </li>
+  <li> <b>GET</b> /api/movies/rating/:id </li>
+  <li> <b>DELETE</b> /api/movies/:id </li>
+  <li> <b>PUT</b> /api/movies/:id </li>
 </ul>
 
 <h4> Reviews </h4>
