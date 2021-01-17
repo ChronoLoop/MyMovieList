@@ -12,7 +12,7 @@ import {
 //api
 import { getMovieById, deleteMovieById } from '../../../api/Movie';
 //utils
-import { getMovieImage } from '../../../utils/Movie';
+import { formatMovieImage } from '../../../utils/Movie';
 //components
 import Loader from '../../../components/Loader/Loader';
 import MovieRating from '../../../components/MovieRating/MovieRating';
@@ -35,7 +35,7 @@ const MovieInfoById = () => {
                 //get image url and parse average rating to float
                 movieData = {
                     ...movieData,
-                    image: getMovieImage(movieData.image.data, movieData.image.contentType),
+                    image: formatMovieImage(movieData.image.data, movieData.image.contentType),
                     avgRating: movieData.avgRating
                         ? parseFloat(movieData.avgRating).toFixed(2)
                         : null

@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import './MovieCard.scss';
 import { Button } from 'react-bootstrap';
 //utils
-import { getMovieImage } from '../../../utils/Movie';
+import { formatMovieImage } from '../../../utils/Movie';
 
 const MovieCard = ({ movie }) => {
-    const movieImage = getMovieImage(movie.image.data, movie.image.contentType);
+    const movieImage = formatMovieImage(movie.image.data, movie.image.contentType);
     const history = useHistory();
     const handleMoreInfo = () => {
         history.push(`/movies/${movie._id}`);
