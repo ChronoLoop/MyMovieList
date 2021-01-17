@@ -38,11 +38,11 @@ npm run dev
 <h2> API </h2>
 <h4> Users </h4>
 <ul>
-  <li> <b>POST</b> /api/users/register </li>
-  <li> <b>POST</b>  /api/users/signin  </li>
-  <li> <b>GET</b>  /api/users/signout </li>
-  <li> <b>GET</b>  /api/users/checkAuth </li>
-  <li> <b>GET</b>  /api/users/checkAdmin </li>
+  <li> <b>POST</b> /api/user/register </li>
+  <li> <b>POST</b>  /api/user/signin  </li>
+  <li> <b>GET</b>  /api/user/signout </li>
+  <li> <b>GET</b>  /api/user/checkAuth </li>
+  <li> <b>GET</b>  /api/user/checkAdmin </li>
 </ul>
 
 <h4> Movies </h4>
