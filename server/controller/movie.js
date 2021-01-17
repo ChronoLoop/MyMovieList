@@ -40,32 +40,33 @@ function getMovieFilter(searchQuery, genre, rating) {
 
 exports.addMovie = async (req, res) => {
     try {
+        // check if admin
+        if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
         const data = await fs.readFile(req.file.path);
         if (validMimeType(req.file.mimetype) !== true) {
-            res.status(400).send();
-        } else {
-            const contentType = req.file.mimetype;
-            const newMovie = new Movie({
-                title: req.body.title,
-                genre: req.body.genre,
-                trailerLink: req.body.trailerLink,
-                movieLength: {
-                    hours: req.body.hours,
-                    minutes: req.body.minutes
-                },
-                description: req.body.description,
-                image: { data, contentType }
-            });
-            // save new movie in db
-            await newMovie.save();
-            // add genre to db
-            await addGenre(newMovie.genre);
-            res.status(201).json({ movieID: newMovie.id });
+            return res.status(400).send();
         }
+        const contentType = req.file.mimetype;
+        const newMovie = new Movie({
+            title: req.body.title,
+            genre: req.body.genre,
+            trailerLink: req.body.trailerLink,
+            movieLength: {
+                hours: req.body.hours,
+                minutes: req.body.minutes
+            },
+            description: req.body.description,
+            image: { data, contentType }
+        });
+        // save new movie in db
+        await newMovie.save();
+        // add genre to db
+        await addGenre(newMovie.genre);
         // delete movie image after saving movie to db
         await fs.unlink(req.file.path);
+        return res.status(201).json({ movieID: newMovie.id });
     } catch {
-        res.status(500).send();
+        return res.status(500).send();
     }
 };
 
@@ -99,25 +100,22 @@ exports.getMovies = async (req, res) => {
 exports.deleteMovieById = async (req, res) => {
     try {
         // check if admin
-        if (await isAdmin(req.user._id)) {
-            const movieId = req.params.id;
-            const movie = await Movie.findByIdAndDelete(movieId);
-            // Delete genre if there are no movies with this genre
-            if (movie) {
-                const genreFilter = { genre: movie.genre };
-                const movieWithPrevGenre = await Movie.findOne(genreFilter);
-                if (!movieWithPrevGenre) {
-                    await deleteGenre(movie.genre);
-                    await deleteReviews(movieId);
-                }
+        if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
+
+        const movieId = req.params.id;
+        const movie = await Movie.findByIdAndDelete(movieId);
+        // Delete genre if there are no movies with this genre
+        if (movie) {
+            const genreFilter = { genre: movie.genre };
+            const movieWithPrevGenre = await Movie.findOne(genreFilter);
+            if (!movieWithPrevGenre) {
+                await deleteGenre(movie.genre);
+                await deleteReviews(movieId);
             }
-            res.status(204).send();
-        } else {
-            // unauthorized to delete
-            res.status(403).send();
         }
+        return res.status(204).send();
     } catch {
-        res.status(500).send();
+        return res.status(500).send();
     }
 };
 
@@ -133,6 +131,7 @@ exports.getMovieAverageById = async (req, res) => {
 
 exports.updateMovieById = async (req, res) => {
     try {
+        if (!(await isAdmin(req.user._id))) return res.status(403).send(); // unauthorized
         const movieId = req.params.id;
         const { title, genre, prevGenre, trailerLink, hours, minutes, description } = req.body;
         const update = {
@@ -148,19 +147,19 @@ exports.updateMovieById = async (req, res) => {
         if (req.file) {
             const data = await fs.readFile(req.file.path);
             if (validMimeType(req.file.mimetype) !== true) {
-                res.status(400).send();
-            } else {
-                const contentType = req.file.mimetype;
-                update.image = { data, contentType };
+                return res.status(400).send();
             }
+            const contentType = req.file.mimetype;
+            update.image = { data, contentType };
+
             await fs.unlink(req.file.path);
         }
         // update movie in db
         await Movie.findByIdAndUpdate(movieId, update, { useFindAndModify: false });
         // update genre to db
         await updateGenre(prevGenre, genre);
-        res.status(200).send();
-    } catch (err) {
-        res.status(500).send();
+        return res.status(200).send();
+    } catch {
+        return res.status(500).send();
     }
 };

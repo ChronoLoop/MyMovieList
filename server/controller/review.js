@@ -32,35 +32,32 @@ exports.getMovieReviews = async (req, res) => {
 };
 
 exports.addReview = async (req, res) => {
-    if (req.isAuthenticated()) {
-        try {
-            const { review, rating, movieId } = req.body;
-            const userId = req.user._id;
-            const movieReview = await Review.findOneByMovieIdAndUserId(movieId, userId);
-            // if review does not exist
-            if (!movieReview) {
-                const newReview = new Review({
-                    user: userId,
-                    movie: movieId,
-                    rating,
-                    review
-                });
-                await newReview.save();
-            } else {
-                // update last review if review already exists
-                await Review.findOneAndUpdate(
-                    { user: userId, movie: movieId },
-                    { rating, review },
-                    { useFindAndModify: false }
-                );
-            }
-            // update average rating of movie after review has been added
-            await updateMovieAverageRating(movieId);
-            res.status(201).send();
-        } catch (err) {
-            res.status(500).send();
+    try {
+        if (!req.isAuthenticated()) return res.status(401).send();
+        const { review, rating, movieId } = req.body;
+        const userId = req.user._id;
+        const movieReview = await Review.findOneByMovieIdAndUserId(movieId, userId);
+        // if review does not exist
+        if (!movieReview) {
+            const newReview = new Review({
+                user: userId,
+                movie: movieId,
+                rating,
+                review
+            });
+            await newReview.save();
+        } else {
+            // update last review if review already exists
+            await Review.findOneAndUpdate(
+                { user: userId, movie: movieId },
+                { rating, review },
+                { useFindAndModify: false }
+            );
         }
-    } else {
-        res.status(401).send();
+        // update average rating of movie after review has been added
+        await updateMovieAverageRating(movieId);
+        return res.status(201).send();
+    } catch (err) {
+        return res.status(500).send();
     }
 };
