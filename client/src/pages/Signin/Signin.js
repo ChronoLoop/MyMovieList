@@ -20,7 +20,7 @@ const CREDENTIAL_ERROR_MESSAGE = {
 };
 
 const Signin = () => {
-    const { setIsAuth } = useAuthContext();
+    const { setIsAuth, setCurrentUserId } = useAuthContext();
     const [showAlert, setShowAlert] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
     const history = useHistory();
@@ -30,6 +30,7 @@ const Signin = () => {
             const res = await signInUser(username, password);
             if (res.status === 200) {
                 setIsAuth(true);
+                setCurrentUserId(res.data.userId);
                 history.push('/');
             }
         } catch (err) {

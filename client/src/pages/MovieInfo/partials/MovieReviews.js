@@ -1,10 +1,10 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert, Button, Container } from 'react-bootstrap';
 import { MdRateReview } from 'react-icons/md';
 import * as yup from 'yup';
 //api
-import { getMovieReviews, getCurrentUserReview, addReview } from '../../../api/Review';
+import { getMovieReviews, addReview } from '../../../api/Review';
 import { getMovieAverageById } from '../../../api/Movie';
 //contexts
 import { useAuthContext } from '../../../contexts/AuthContext';
@@ -24,24 +24,26 @@ let reviewSchema = yup.object().shape({
 
 const MovieReviews = () => {
     const [reviewState, reviewDispatch] = useReducer(reducer, initialState);
-    const { isAuth } = useAuthContext();
+    const { isAuth, currentUserId } = useAuthContext();
     const { state: movieInfoState, dispatch: movieInfoDispatch } = useMovieInfoContext();
     const { isLoadingMovie, fetchMovieFailure } = movieInfoState;
     let { id: movieId } = useParams();
     const [hasReviewSchemaError, setHasReviewSchemaError] = useState(false);
 
     //used to refetech rating and reviews after submitting review
-    const refetchData = async () => {
-        //refetch movie reviews
+    const fetchData = useCallback(async () => {
+        //fetch movie reviews
         reviewDispatch({
             type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_START
         });
+        reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_START });
         const movieReviewsRes = await getMovieReviews(movieId);
         reviewDispatch({
             type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_SUCCESS,
             payload: { movieReviews: movieReviewsRes.data.movieReviews }
         });
-        //refetch movie avg rating
+
+        //fetch movie avg rating
         const avgRatingRes = await getMovieAverageById(movieId);
         movieInfoDispatch({
             type: MOVIE_INFO_ACTIONS.UPDATE_AVERAGE_RATING,
@@ -51,47 +53,28 @@ const MovieReviews = () => {
                     : null
             }
         });
-    };
+        //find current user review
+        const currentUserReview = movieReviewsRes.data.movieReviews.find((userReview) => {
+            return userReview.user._id === currentUserId;
+        });
+        if (currentUserReview) {
+            reviewDispatch({
+                type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_SUCCESS,
+                payload: {
+                    review: currentUserReview.review,
+                    rating: currentUserReview.rating
+                }
+            });
+        } else {
+            reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_FAILURE });
+        }
+    }, [movieId, movieInfoDispatch, currentUserId]);
 
     //movie reviews
     useEffect(() => {
-        const fetchMovieReviews = async () => {
-            try {
-                reviewDispatch({
-                    type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_START
-                });
-                const res = await getMovieReviews(movieId);
-                reviewDispatch({
-                    type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_SUCCESS,
-                    payload: { movieReviews: res.data.movieReviews }
-                });
-            } catch {
-                reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.MOVIE_REVIEWS_FETCH_FAILURE });
-            }
-        };
-        fetchMovieReviews();
-    }, [movieId]);
-
-    //user review
-    useEffect(() => {
-        const fetchCurrentUserReview = async () => {
-            try {
-                reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_START });
-                const res = await getCurrentUserReview(movieId);
-                reviewDispatch({
-                    type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_SUCCESS,
-                    payload: {
-                        review: res.data.userReview.review,
-                        rating: res.data.userReview.rating
-                    }
-                });
-            } catch {
-                reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_FETCH_FAILURE });
-            }
-        };
-        //fetch if signed in
-        if (isAuth) fetchCurrentUserReview();
-    }, [movieId, isAuth]);
+        console.log('useffect');
+        fetchData();
+    }, [fetchData]);
 
     const handleReview = (e) => {
         reviewDispatch({
@@ -120,7 +103,7 @@ const MovieReviews = () => {
                     const res = await addReview(movieId, reviewState.rating, reviewState.review);
                     if (res.status === 201) {
                         reviewDispatch({ type: MOVIE_REVIEW_ACTIONS.USER_REVIEW_POST_SUCCESS });
-                        await refetchData();
+                        await fetchData();
                     }
                 } else {
                     setHasReviewSchemaError(true);

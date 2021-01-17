@@ -57,7 +57,6 @@ npm run dev
 
 <h4> Reviews </h4>
 <ul>
-  <li> <b>GET</b> /api/review/user/:id </li>
   <li> <b>GET</b> /api/review/movie/:id </li>
   <li> <b>POST</b> /api/review/new </li>
 </ul>

@@ -12,6 +12,9 @@ export const getMovieReviews = (movieId) => {
     return axios.get(`/api/review/movie/${movieId}`);
 };
 
-export const getCurrentUserReview = (movieId) => {
-    return axios.get(`/api/review/user/${movieId}`, { withCredentials: true });
-};
+// export const getCurrentUserReview = (movieId) => {
+//     return axios.get(`/api/review/movie/userreview`, {
+//         params: { movieId },
+//         withCredentials: true
+//     });
+// };

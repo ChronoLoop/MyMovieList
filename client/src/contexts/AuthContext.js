@@ -9,6 +9,7 @@ const useAuthContext = () => {
 const AuthProvider = ({ children }) => {
     const [isAuth, setIsAuth] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     //check if auth
     useEffect(() => {
@@ -17,6 +18,7 @@ const AuthProvider = ({ children }) => {
                 const res = await checkAuth();
                 if (res.data.auth) {
                     setIsAuth(true);
+                    setCurrentUserId(res.data.userId);
                 }
             } catch {
                 setIsAuth(false);
@@ -29,6 +31,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (!isAuth) {
             setIsAdmin(false);
+            setCurrentUserId(null);
         } else {
             const checkUserAdmin = async () => {
                 try {
@@ -47,7 +50,9 @@ const AuthProvider = ({ children }) => {
     }, [isAuth]);
 
     return (
-        <AuthContext.Provider value={{ isAuth, setIsAuth, isAdmin }}>
+        <AuthContext.Provider
+            value={{ isAuth, setIsAuth, isAdmin, currentUserId, setCurrentUserId }}
+        >
             {children}
         </AuthContext.Provider>
     );

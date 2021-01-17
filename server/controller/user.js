@@ -38,7 +38,7 @@ exports.signInUser = async (req, res, next) => {
             if (error) {
                 return next(error);
             }
-            return res.status(200).send();
+            return res.status(200).json({ auth: true, userId: user._id });
         });
         return res.status(200).send();
     })(req, res, next);
@@ -56,7 +56,7 @@ exports.signOutUser = async (req, res) => {
 
 exports.checkUserAuth = async (req, res) => {
     if (req.isAuthenticated()) {
-        return res.status(200).json({ auth: true, userID: req.user._id });
+        return res.status(200).json({ auth: true, userId: req.user._id });
     }
     return res.status(200).json({ auth: false });
 };
