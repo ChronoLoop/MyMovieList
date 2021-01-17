@@ -171,7 +171,9 @@ const MovieReviews = () => {
                             <Button
                                 variant="danger"
                                 onClick={handleSubmit}
-                                disabled={reviewState.isSubmitting}
+                                disabled={
+                                    reviewState.isSubmitting || reviewState.isLoadingMovieReviews
+                                }
                             >
                                 {reviewState.userReviewExists ? 'Update review' : 'Post'}
                             </Button>
