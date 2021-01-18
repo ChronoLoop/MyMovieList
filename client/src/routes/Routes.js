@@ -8,6 +8,7 @@ import Signin from '../pages/Signin/Signin';
 import MovieInfo from '../pages/MovieInfo/MovieInfo';
 //components
 import Navbar from '../components/Navbar/Navbar';
+import ScrollTop from '../components/ScrollTop/ScrollTop';
 //contexts
 import { useAuthContext } from '../contexts/AuthContext';
 
@@ -27,6 +28,7 @@ const PageRoutes = () => {
         <div className="background-container">
             <Router>
                 <Navbar />
+                <ScrollTop />
                 <Switch>
                     <Route exact path="/movies/new" render={(props) => <AddMovie {...props} />} />
                     <Route exact path="/movies" render={(props) => <Movies {...props} />} />
