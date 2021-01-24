@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { FaStar, FaSearch } from 'react-icons/fa';
 import { Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import './Movies.scss';
 // components
 import GenreFilter from '../../components/GenreFilter/GenreFilter';
 import Input from '../../components/Input/Input';

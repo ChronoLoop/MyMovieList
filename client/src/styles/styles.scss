@@ -1,0 +1,38 @@
+@use './variables' as var;
+@use "~bootstrap/scss/bootstrap";
+@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+
+$default-fonts: "Roboto", sans-serif, Arial;
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: $default-fonts;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+.App {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.background-container {
+    background: var.$background-color;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    color: var.$white;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
