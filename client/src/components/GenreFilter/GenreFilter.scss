@@ -1,21 +1,18 @@
-$red-border: #c23616;
-$input-bg: #4b5259;
-$input-bg-hover: #585f68;
-$white: #f5f6fa;
+@use '../../styles/variables' as var;
 
 .genre-filter-container {
     .list-item {
         text-align: left !important;
-        background: $input-bg !important;
-        color: white !important;
+        background: var.$input-bg !important;
+        color: var.$white !important;
         font-size: 16px !important;
     }
     .list-item:hover {
         cursor: pointer;
-        background: $input-bg-hover !important;
+        background: var.$input-bg-hover !important;
     }
     .list-item-active {
-        border-left-color: $red-border !important;
+        border-left-color: var.$red !important;
         border-left-width: 2px !important;
         transition: 0.3s ease-in !important;
     }
@@ -23,5 +20,5 @@ $white: #f5f6fa;
 
 .genre-filter-container > label {
     margin: 5px 0px;
-    color: $white;
+    color: var.$white;
 }

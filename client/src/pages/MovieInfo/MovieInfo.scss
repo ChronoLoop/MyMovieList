@@ -1,13 +1,15 @@
+@use '../../styles/variables' as var;
+
 .movie-info-image {
     max-height: 500px;
 }
 .movie-info-content {
-    color: #f2f3f4;
+    color: var.$white;
 }
 
 .subtext {
     font-size: 20px;
-    color: #c0bbb3;
+    color: var.$muted;
 }
 .subtext .ghost {
     margin: 0 0.5em;

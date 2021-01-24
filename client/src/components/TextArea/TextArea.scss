@@ -1,8 +1,4 @@
-$red-border: #c23616;
-$input-bg: #4b5259;
-$input-bg-hover: #585f68;
-$icon-color: #fbc531;
-$white: #f5f6fa;
+@use '../../styles/variables' as var;
 
 .text-area-container {
     position: relative;
@@ -11,19 +7,19 @@ $white: #f5f6fa;
 
 .text-area-container > label {
     margin: 5px 0px;
-    color: $white;
+    color: var.$white;
 }
 
 .text-area-container > textarea {
     width: 100%;
     padding: 10px 40px;
-    background: $input-bg;
-    border-bottom: 2px solid $red-border;
+    background: var.$input-bg;
+    border-bottom: 2px solid var.$red;
     border-top: 0px;
     border-right: 0px;
     border-left: 0px;
     border-radius: 3px;
-    color: $white;
+    color: var.$white;
 }
 
 .text-area-container > textarea:focus {
@@ -32,7 +28,7 @@ $white: #f5f6fa;
 
 .text-area-container > .text-area-icon {
     position: absolute;
-    color: $icon-color;
+    color: var.$icon-color;
     z-index: 2;
     text-align: left;
     top: 46px;
@@ -41,7 +37,7 @@ $white: #f5f6fa;
 
 .text-area-container > .text-area-icon.no-label {
     position: absolute;
-    color: $icon-color;
+    color: var.$icon-color;
     z-index: 2;
     text-align: left;
     top: 14px;
@@ -49,5 +45,5 @@ $white: #f5f6fa;
 }
 
 .text-area-container > textarea::placeholder {
-    color: #999fa1;
+    color: var.$input-muted;
 }

@@ -1,9 +1,9 @@
-$icon-color: #fbc531;
+@use '../../styles/variables' as var;
 
 .movie-rating {
     display: flex;
     align-items: center;
 }
 .movie-rating > .icon {
-    color: $icon-color;
+    color: var.$icon-color;
 }

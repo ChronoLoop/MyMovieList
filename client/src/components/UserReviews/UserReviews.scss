@@ -1,4 +1,4 @@
-$icon-color: #fbc531;
+@use '../../styles/variables' as var;
 
 ul.user-reviews {
     list-style: none;
@@ -15,7 +15,7 @@ ul.user-reviews {
         font-weight: 400;
     }
     & .content .icon {
-        color: $icon-color;
+        color: var.$icon-color;
     }
     & > li {
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
