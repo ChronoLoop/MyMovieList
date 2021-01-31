@@ -1,5 +1,5 @@
 @use './variables' as var;
-@use "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 
 $default-fonts: "Roboto", sans-serif, Arial;

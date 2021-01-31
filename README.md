@@ -22,9 +22,9 @@ npm run dev
 
 <h2>Built with</h2>
 <ul>
-    <li>FrontEnd: <b> React.JS, Bootstrap, HTML/CSS </b></li>
-    <li>Backend:  <b> Node.JS, Express.JS, Passport.JS, Bcrypt</b> </li>
-    <li>Database: <b> MongoDB, Mongoose </b> </li>
+    <li><b>FrontEnd:</b> React.JS, Bootstrap, HTML/CSS </li>
+    <li><b>Backend:</b> Node.JS, Express.JS, Passport.JS, Bcrypt </li>
+    <li><b>Database:</b> MongoDB, Mongoose </li>
 </ul>
 
 <h2> Features </h2>
