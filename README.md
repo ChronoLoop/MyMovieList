@@ -1,7 +1,8 @@
 # MyMovieList
+
 MyMovieList is a simple database web app where users can search for movies and review and rate movies, and admins can add, update, or delete movies.
 
-<b>Website: </b> <a href="https://mymovielist-kevin.herokuapp.com">https://mymovielist-kevin.herokuapp.com</a>
+<b>Website: </b> <a href="https://mymovielist-production.up.railway.app">https://mymovielist-production.up.railway.app</a>
 
 <b>Home Page</b>
 <img width="1438" alt="screenshot" src="images/home_page.png">
@@ -11,11 +12,14 @@ MyMovieList is a simple database web app where users can search for movies and r
 
 <h2>Installation</h2>
 
- Setup the project and install the packages by running:
+Setup the project and install the packages by running:
+
 ```bash
 npm run setup
 ```
- Run project with command:
+
+Run project with command:
+
 ```bash
 npm run dev
 ```
@@ -71,36 +75,41 @@ This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that mea
 
 ## TODOS
 
-- [x] Home Page (Movies)
-  - [x] Genre Filter
-  - [x] Rating Filter
-  - [x] Search Filter
-  - [x] Movie Grid
-    - [x] MovieCardS
-    - [x] Pagination
+-   [x] Home Page (Movies)
 
-- [x] Add Movie Page
-  - [x] Form
-  - [x] Create Movie
+    -   [x] Genre Filter
+    -   [x] Rating Filter
+    -   [x] Search Filter
+    -   [x] Movie Grid
+        -   [x] MovieCardS
+        -   [x] Pagination
 
-- [x] Movie Page
-  - [x] Movie Information
-  - [x] Create/Fetch Reviews
-  - [x] Create/Fetch Ratings
-  - [x] Edit Movie
-  - [x] Delete Movie
+-   [x] Add Movie Page
 
-- [x] Login/Register Page
-  - [x] Form
-  - [x] Create New User
-  - [x] User Authentication
-  - [x] Admin Authentication
+    -   [x] Form
+    -   [x] Create Movie
 
-- [x] Admin features
-  - [x] Create movies
-  - [x] Delete movies
-  - [x] Edit movies
+-   [x] Movie Page
 
-- [x] User Features
-  - [x] Review movies
-  - [x] Rate movies
+    -   [x] Movie Information
+    -   [x] Create/Fetch Reviews
+    -   [x] Create/Fetch Ratings
+    -   [x] Edit Movie
+    -   [x] Delete Movie
+
+-   [x] Login/Register Page
+
+    -   [x] Form
+    -   [x] Create New User
+    -   [x] User Authentication
+    -   [x] Admin Authentication
+
+-   [x] Admin features
+
+    -   [x] Create movies
+    -   [x] Delete movies
+    -   [x] Edit movies
+
+-   [x] User Features
+    -   [x] Review movies
+    -   [x] Rate movies
