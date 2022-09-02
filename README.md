@@ -70,9 +70,6 @@ npm run dev
   <li> <b>GET</b> /api/genre </li>
 </ul>
 
-<h2> Heroku </h2>
-This web app is hosted on Heroku. "The Heroku filesystem is ephemeral - that means that any changes to the filesystem whilst the dyno is running only last until that dyno is shut down or restarted" (<a href="https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted">Source</a>). As a result, images can not be stored in a filesystem without it being deleted after a server shut down or restart. A solution to this problem is to store the images on MongoDB. This is not ideal, but it is the easiest free solution to this problem.
-
 ## TODOS
 
 -   [x] Home Page (Movies)
