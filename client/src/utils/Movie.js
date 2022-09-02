@@ -1,5 +1,7 @@
+import { Buffer } from 'buffer';
+
 export const formatMovieImage = (data, contentType) => {
-    const encodedImage = new Buffer.from(data, 'binary').toString('base64');
+    const encodedImage = Buffer.from(data, 'binary').toString('base64');
     const movieImage = `data:${contentType};base64,` + encodedImage;
     return movieImage;
 };
