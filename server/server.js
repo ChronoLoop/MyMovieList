@@ -16,7 +16,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const passportConfig = require('./config/passport');
 const dbConfig = require('./config/database');
@@ -31,9 +32,9 @@ passportConfig(passport);
 dbConfig(mongoose, DATABASE_URL);
 
 // session
-const sessionStore = new MongoStore({
-    mongooseConnection: mongoose.connection,
-    collection: 'sessions'
+const sessionStore = MongoStore.create({
+    client: mongoose.connection.getClient(),
+    collectionName: 'sessions'
 });
 
 const app = express();
@@ -69,7 +70,7 @@ if (IN_PROD) {
     // Serve any static files
     app.use(express.static(path.join(__dirname, '../client/build')));
     // Handle React routing, return all requests to React app
-    app.get('*', (req, res) => {
+    app.get('*', (_, res) => {
         res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
     });
 }
