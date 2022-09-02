@@ -4,6 +4,7 @@
     "description": "A movie database website",
     "main": "server.js",
     "scripts": {
+        "setup": "npm ci && npm ci --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "install-all": "concurrently \"npm ci\" \"npm ci --prefix client\"",
         "client": "npm run start --prefix client",
