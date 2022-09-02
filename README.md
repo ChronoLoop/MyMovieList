@@ -2,7 +2,7 @@
 
 MyMovieList is a simple database web app where users can search for movies and review and rate movies, and admins can add, update, or delete movies.
 
-<b>Website: </b> <a href="https://mymovielist-production.up.railway.app">https://mymovielist-production.up.railway.app</a>
+<b>Website: </b> <a href="https://mymovielist.up.railway.app">https://mymovielist.up.railway.app</a>
 
 <b>Home Page</b>
 <img width="1438" alt="screenshot" src="images/home_page.png">
