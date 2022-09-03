@@ -1,6 +1,5 @@
 const IN_PROD = process.env.NODE_ENV === 'production';
 if (!IN_PROD) {
-    // eslint-disable-next-line global-require,  import/no-extraneous-dependencies
     const dotenv = require('dotenv');
     dotenv.config();
 }
